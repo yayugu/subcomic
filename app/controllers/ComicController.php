@@ -7,6 +7,6 @@ class ComicController extends \BaseController
         $archiveFile = Comic::find($archiveFileId);
         return View::make('comic.show')
             ->with('id', $archiveFileId)
-            ->with('pages', $archiveFile->pages());
+            ->with('pages', $archiveFile->getArchive()->getImageList());
     }
 }

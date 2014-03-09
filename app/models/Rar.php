@@ -1,9 +1,9 @@
 <?php
 
-class Zip implements ArchiveInterface
+class Rar implements ArchiveInterface
 {
-    /** @var \ZipArchive */
-    protected $zip;
+    /** @var \RarArchive */
+    protected $rar;
 
     /**
      * @param string $path
@@ -11,8 +11,8 @@ class Zip implements ArchiveInterface
      */
     public function __construct($path)
     {
-        $this->zip = new ZipArchive;
-        if (!$this->zip->open($path)) {
+        $this->rar = RarArchive::open($path);
+        if ($this->rar === false) {
             throw new Exception("error");
         }
     }
@@ -23,7 +23,10 @@ class Zip implements ArchiveInterface
      */
     public function getFromIndex($index)
     {
-        return $this->zip->getFromIndex($index);
+        $entries = $this->rar->getEntries();
+        $entry = $entries[$index];
+        $stream = $entry->getStream();
+        return fread($stream, $entry->getUnpackedSize());
     }
 
     /**
@@ -31,26 +34,18 @@ class Zip implements ArchiveInterface
      */
     public function getImageList()
     {
+        $entries = $this->rar->getEntries();
         $list = [];
-        for ($i = 0; $i < $this->zip->numFiles; $i++) {
-            $stat = $this->zip->statIndex($i);
-            if ($this->statIsDir($stat)
-                || $this->statIsSystemFile($stat)
-            ) {
+        $index = 0;
+        foreach ($entries as $entry) {
+            if ($entry->isDirectory()) {
+                $index++;
                 continue;
             }
-            $list[] = $i;
+            $list[] = $index;
+            $index++;
         }
         return $list;
-    }
-
-    /**
-     * @param array $stat
-     * @return bool
-     */
-    protected function statIsDir($stat)
-    {
-        return ($stat['size'] === 0 && preg_match('/\/\z/', $stat['name']));
     }
 
     /**
