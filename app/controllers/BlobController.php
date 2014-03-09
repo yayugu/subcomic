@@ -10,7 +10,7 @@ class BlobController extends \BaseController
      */
     public function image($archiveFileId, $index)
     {
-        $archiveFile = ArchiveFile::get((int)$archiveFileId);
+        $archiveFile = Comic::get((int)$archiveFileId);
         $imageBlob = $archiveFile->getFromIndex((int)$index);
         return Response::make($imageBlob)
             ->header('Content-Type', 'image/jpeg');

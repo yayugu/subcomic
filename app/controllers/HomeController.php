@@ -5,7 +5,7 @@ class HomeController extends BaseController {
 	public function index()
 	{
 		return View::make('home.index')
-            ->with('archiveFiles', ArchiveFile::all());
+            ->with('archiveFiles', Comic::all());
 	}
 
 }

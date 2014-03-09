@@ -2,9 +2,9 @@
 
 use Symfony\Component\Finder\Finder;
 
-class ArchiveFile extends Eloquent
+class Comic extends Eloquent
 {
-    protected $table = 'archive_file';
+    protected $table = 'comics';
 
     /**
      * @param int $id
@@ -24,10 +24,17 @@ class ArchiveFile extends Eloquent
         $zip = new ZipArchive;
         if (!$zip->open($path)) {
             throw new Exception("error");
-            return;
         }
         return $zip;
-
     }
 
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function pages()
+    {
+        $zip = new Zip('/Users/yayugu/comic/'.$this->path);
+        return $zip->getImageList();
+    }
 }

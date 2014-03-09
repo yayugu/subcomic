@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateArchiveFileTable extends Migration
+class CreateComicsTable extends Migration
 {
 
     /**
@@ -13,7 +13,7 @@ class CreateArchiveFileTable extends Migration
      */
     public function up()
     {
-        Schema::create('archive_file', function (Blueprint $table) {
+        Schema::create('comics', function (Blueprint $table) {
             $table->increments('id');
             $table->string('path');
             $table->timestamps();
