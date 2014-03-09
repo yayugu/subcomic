@@ -12,3 +12,4 @@
 */
 
 Artisan::add(new UnZipCommand);
+Artisan::add(new ArchiveFileDetectCommand);

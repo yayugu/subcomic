@@ -2,8 +2,10 @@
 
 use Symfony\Component\Finder\Finder;
 
-class ArchiveFile
+class ArchiveFile extends Eloquent
 {
+    protected $table = 'archive_file';
+
     /**
      * @param int $id
      * @return \ZipArchive
