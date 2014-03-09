@@ -1,8 +1,8 @@
 <!doctype html>
 <html>
 <div class="welcome">
-    @foreach ($archiveFiles as $archive)
-        {{{$archive->path}}}<br>
+    @foreach ($Comics as $comic)
+        {{link_to_action('ComicController@show', $comic->path, ['id' => $comic->id])}}<br>
     @endforeach
 </div>
 </html>
