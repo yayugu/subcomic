@@ -2,7 +2,11 @@
 <html>
 <div>
     @foreach ($pages as $page)
-        {{link_to_action('BlobController@image', $page, ['archiveFileId' => $id, 'index' => $page])}}<br>
+        <?php $img_url = action('BlobController@image', ['archiveFileId' => $id, 'index' => $page]); ?>
+        <a href="{{$img_url}}">
+          <img src="{{$img_url}}">
+        </a>
+        <br>
     @endforeach
 </div>
 </html>
