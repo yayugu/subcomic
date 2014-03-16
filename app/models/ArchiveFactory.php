@@ -9,6 +9,7 @@ class ArchiveFactory
      */
     public static function create($path)
     {
+        $path = trim($path);
         $pathinfo = pathinfo($path);
         $ext = strtolower($pathinfo['extension']);
         switch ($ext) {
@@ -16,6 +17,8 @@ class ArchiveFactory
                 return new Zip($path);
             case 'rar':
                 return new Rar($path);
+            case 'pdf':
+                return new Pdf($path);
             default:
                 throw new Exception ('unknown path name');
         }
