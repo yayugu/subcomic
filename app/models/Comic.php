@@ -12,7 +12,24 @@ class Comic extends Eloquent
      */
     public function getArchive()
     {
-        $path = '/Users/yayugu/comic/'.$this->path;
-        return ArchiveFactory::create($path);
+        return ArchiveFactory::create($this->getAbsolutePath());
+    }
+
+    /**
+     * @return string
+     */
+    public function getAbsolutePath()
+    {
+        return '/Users/yayugu/comic/'.$this->path;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPDF()
+    {
+        $path_info = pathinfo($this->path);
+        $ext = strtolower($path_info['extension']);
+        return $ext === 'pdf';
     }
 }
