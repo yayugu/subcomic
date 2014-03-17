@@ -25,7 +25,7 @@ class ArchiveFileDetectCommand extends Command
     /**
      * Create a new command instance.
      *
-     * @return void
+     * @return \ArchiveFileDetectCommand
      */
     public function __construct()
     {

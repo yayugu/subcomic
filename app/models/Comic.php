@@ -1,7 +1,5 @@
 <?php
 
-use Symfony\Component\Finder\Finder;
-
 class Comic extends Eloquent
 {
     protected $table = 'comics';
