@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateComicsTable extends Migration
+class CreateTagsTable extends Migration
 {
 
     /**
@@ -13,10 +13,12 @@ class CreateComicsTable extends Migration
      */
     public function up()
     {
-        Schema::create('comics', function (Blueprint $table) {
+        Schema::create('tags', function (Blueprint $table) {
             $table->bigIncrements('id')->unsigned();
-            $table->string('path');
+            $table->string('name', 150);
             $table->timestamps();
+
+            $table->unique('name');
         });
     }
 
@@ -27,7 +29,7 @@ class CreateComicsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('comics');
+        Schema::drop('tags');
     }
 
 }
