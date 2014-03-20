@@ -1,5 +1,7 @@
 <?php
 
+require_once 'src/Framework/Assert/Functions.php';
+
 class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
 	/**
