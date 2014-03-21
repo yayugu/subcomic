@@ -36,6 +36,7 @@ class Zip implements ArchiveInterface
             $stat = $this->zip->statIndex($i);
             if ($this->statIsDir($stat)
                 || $this->statIsSystemFile($stat)
+                || !ImageFileNameDetector::isImage($stat['name'])
             ) {
                 continue;
             }

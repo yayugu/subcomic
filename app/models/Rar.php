@@ -38,7 +38,9 @@ class Rar implements ArchiveInterface
         $list = [];
         $index = 0;
         foreach ($entries as $entry) {
-            if ($entry->isDirectory()) {
+            if ($entry->isDirectory()
+                || !ImageFileNameDetector::isImage($entry->getName())
+            ) {
                 $index++;
                 continue;
             }
@@ -46,14 +48,5 @@ class Rar implements ArchiveInterface
             $index++;
         }
         return $list;
-    }
-
-    /**
-     * @param array $stat
-     * @return bool
-     */
-    protected function statIsSystemFile($stat)
-    {
-        return preg_match('/\A__MACOSX\//', $stat['name']);
     }
 }
