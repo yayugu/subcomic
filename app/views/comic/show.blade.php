@@ -14,7 +14,7 @@
 </style>
 <div>
     @foreach ($pages as $page)
-        <?php $img_url = action('BlobController@image', ['archiveFileId' => $id, 'index' => $page]); ?>
+        {? $img_url = action('BlobController@image', ['archiveFileId' => $id, 'index' => $page]); ?}
         <a class="block" href="{{$img_url}}">
           <img class="comic-page" src="{{$img_url}}">
         </a>
