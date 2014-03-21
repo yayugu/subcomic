@@ -35,16 +35,21 @@ class AutoTaggingCommand extends Command
     public function fire()
     {
         $comics = Comic::all();
-        $tags = ['hoge', 'fuga'];
 
         foreach ($comics as $comic) {
-            DB::transaction(function() use($comic) {
-                if (TagMap::whereHas('tag', function($q) { $q->where('name', 'like', 'hoge'); })->first()) {
-                    return;
+            $tag_names = TagDetector::detect($comic->path);
+            foreach ($tag_names as $tag_name) {
+                if (TagMap::where('comic_id', '=', $comic->id)
+                    ->whereHas('tag', function ($q) use ($tag_name) {
+                        $q->where('name', 'like', $tag_name);
+                    })
+                    ->first()
+                ) {
+                    continue;
                 }
-                $tag = Tag::firstOrCreate(['name' => 'hoge']);
+                $tag = Tag::firstOrCreate(['name' => $tag_name]);
                 $tag_map = TagMap::create(['comic_id' => $comic->id, 'tag_id' => $tag->id]);
-            });
+            }
         }
     }
 

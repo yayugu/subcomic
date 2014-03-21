@@ -51,6 +51,11 @@ App::error(function(Exception $exception, $code)
 	Log::error($exception);
 });
 
+Event::listen("illuminate.query", function($query, $bindings, $time, $name){
+    \Log::info($query."\n");
+    \Log::info(json_encode($bindings)."\n");
+});
+
 /*
 |--------------------------------------------------------------------------
 | Maintenance Mode Handler

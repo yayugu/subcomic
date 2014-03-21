@@ -8,7 +8,10 @@ class TagDetector
      */
     public static function detect($path)
     {
-        return self::splitDirs(dirname($path));
+        return array_merge(
+            self::splitDirs(dirname($path)),
+            self::detectBracketTags($path)
+        );
     }
 
     /**
@@ -19,8 +22,20 @@ class TagDetector
     {
         $parents = dirname($dir_path);
         $name = basename($dir_path);
-        return $parents === '.'
-            ? [$name]
+        return $name === '.'
+            ? []
             : array_merge(self::splitDirs($parents), [$name]);
+    }
+
+    /**
+     * @param string $path
+     * @return array
+     */
+    public static function detectBracketTags($path)
+    {
+        preg_match_all('/(?:\[)(.+?)(?:\])/', $path, $ms);
+        return count($ms) >= 1
+            ? $ms[1]
+            : [];
     }
 }

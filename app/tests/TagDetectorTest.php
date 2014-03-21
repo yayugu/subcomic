@@ -8,5 +8,18 @@ class TagDetectorTest extends TestCase
             ['hoge', 'fuga'],
             TagDetector::detect('hoge/fuga/piyo.zip')
         );
+
+        assertEquals(
+            [],
+            TagDetector::detect('piyo.zip')
+        );
+    }
+
+    public function testBracketTag()
+    {
+        assertEquals(
+            ['hoge', 'fuga'],
+            TagDetector::detect('[hoge][fuga]piyo.zip')
+        );
     }
 }
