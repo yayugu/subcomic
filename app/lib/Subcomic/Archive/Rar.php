@@ -1,5 +1,7 @@
 <?php
 
+namespace Subcomic\Archive;
+
 class Rar implements ArchiveInterface
 {
     /** @var \RarArchive */
@@ -7,13 +9,13 @@ class Rar implements ArchiveInterface
 
     /**
      * @param string $path
-     * @throws Exception
+     * @throws \Exception
      */
     public function __construct($path)
     {
-        $this->rar = RarArchive::open($path);
+        $this->rar = \RarArchive::open($path);
         if ($this->rar === false) {
-            throw new Exception("error");
+            throw new \Exception("error");
         }
     }
 
@@ -39,7 +41,7 @@ class Rar implements ArchiveInterface
         $index = 0;
         foreach ($entries as $entry) {
             if ($entry->isDirectory()
-                || !ImageFileNameDetector::isImage($entry->getName())
+                || !\ImageFileNameDetector::isImage($entry->getName())
             ) {
                 $index++;
                 continue;

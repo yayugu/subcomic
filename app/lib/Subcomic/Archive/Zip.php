@@ -1,5 +1,7 @@
 <?php
 
+namespace Subcomic\Archive;
+
 class Zip implements ArchiveInterface
 {
     /** @var \ZipArchive */
@@ -7,13 +9,13 @@ class Zip implements ArchiveInterface
 
     /**
      * @param string $path
-     * @throws Exception
+     * @throws \Exception
      */
     public function __construct($path)
     {
-        $this->zip = new ZipArchive;
+        $this->zip = new \ZipArchive;
         if (!$this->zip->open($path)) {
-            throw new Exception("error");
+            throw new \Exception("error");
         }
     }
 
@@ -35,8 +37,7 @@ class Zip implements ArchiveInterface
         for ($i = 0; $i < $this->zip->numFiles; $i++) {
             $stat = $this->zip->statIndex($i);
             if ($this->statIsDir($stat)
-                || $this->statIsSystemFile($stat)
-                || !ImageFileNameDetector::isImage($stat['name'])
+                || !\ImageFileNameDetector::isImage($stat['name'])
             ) {
                 continue;
             }
@@ -52,14 +53,5 @@ class Zip implements ArchiveInterface
     protected function statIsDir($stat)
     {
         return ($stat['size'] === 0 && preg_match('/\/\z/', $stat['name']));
-    }
-
-    /**
-     * @param array $stat
-     * @return bool
-     */
-    protected function statIsSystemFile($stat)
-    {
-        return preg_match('/\A__MACOSX\//', $stat['name']);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use Subcomic\Archive\ArchiveFactory;
+
 class Comic extends Eloquent
 {
     protected $table = 'comics';

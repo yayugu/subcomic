@@ -1,5 +1,7 @@
 <?php
 
+namespace Subcomic\Archive;
+
 class ArchiveFactory
 {
     /**
@@ -17,10 +19,8 @@ class ArchiveFactory
                 return new Zip($path);
             case 'rar':
                 return new Rar($path);
-            case 'pdf':
-                return new Pdf($path);
             default:
-                throw new Exception ('unknown path name');
+                throw new Exception ('unknown ext name');
         }
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+namespace Subcomic\Archive;
+
 interface ArchiveInterface
 {
     /**
