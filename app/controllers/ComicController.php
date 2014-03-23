@@ -14,11 +14,9 @@ class ComicController extends \BaseController
             ->with('pages', $comic->getArchive()->getImageList());
     }
 
-    public function tagSearch($tagName)
+    public function tagSearch($tag_name)
     {
-        $tag = Tag::where('name', '=', $tagName)->first();
-        $comics = $tag->comics()->get();
         return View::make('comic.tag_search')
-            ->with('comics', $comics);
+            ->with('comics', Comic::findByTagName($tag_name));
     }
 }

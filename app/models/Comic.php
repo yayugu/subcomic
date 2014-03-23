@@ -38,4 +38,14 @@ class Comic extends Eloquent
         $ext = strtolower($path_info['extension']);
         return $ext === 'pdf';
     }
+
+    /**
+     * @param $tag_name
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public static function findByTagName($tag_name)
+    {
+        $tag = Tag::where('name', '=', $tag_name)->first();
+        return $tag->comics()->get();
+    }
 }
