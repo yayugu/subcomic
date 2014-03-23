@@ -9,7 +9,7 @@ class Comic extends Eloquent
      */
     public function tags()
     {
-        return $this->hasManyThrough('Tag', 'TagMap');
+        return $this->belongsToMany('Tag', 'tag_maps');
     }
 
     /**

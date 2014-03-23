@@ -4,13 +4,21 @@ class ComicController extends \BaseController
 {
     public function show($archiveFileId)
     {
-        $archiveFile = Comic::find($archiveFileId);
-        if ($archiveFile->isPDF()) {
-            return Response::make(file_get_contents($archiveFile->getAbsolutePath()))
+        $comic = Comic::find($archiveFileId);
+        if ($comic->isPDF()) {
+            return Response::make(file_get_contents($comic->getAbsolutePath()))
                 ->header('Content-Type', 'application/pdf');
         }
         return View::make('comic.show')
-            ->with('id', $archiveFileId)
-            ->with('pages', $archiveFile->getArchive()->getImageList());
+            ->with('comic', $comic)
+            ->with('pages', $comic->getArchive()->getImageList());
+    }
+
+    public function tagSearch($tagName)
+    {
+        $tag = Tag::where('name', '=', $tagName)->first();
+        $comics = $tag->comics()->get();
+        return View::make('comic.tag_search')
+            ->with('comics', $comics);
     }
 }

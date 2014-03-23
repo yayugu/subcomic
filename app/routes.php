@@ -12,5 +12,6 @@
 */
 
 Route::get('/', 'HomeController@index');
+Route::get('/comic/tag/{tag}', 'ComicController@tagSearch');
 Route::get('/comic/{id}', 'ComicController@show');
 Route::get('/image/{archiveFileId}/{index}', 'BlobController@image');

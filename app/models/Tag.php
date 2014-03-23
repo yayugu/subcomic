@@ -9,6 +9,6 @@ class Tag extends Eloquent
      */
     public function comics()
     {
-        return $this->hasManyThrough('Comic', 'TagMap');
+        return $this->belongsToMany('Comic', 'tag_maps');
     }
 }
