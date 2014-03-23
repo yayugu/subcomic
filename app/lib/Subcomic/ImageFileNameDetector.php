@@ -1,5 +1,7 @@
 <?php
 
+namespace Subcomic;
+
 class ImageFileNameDetector
 {
     /**
@@ -9,7 +11,7 @@ class ImageFileNameDetector
     public static function isImage($name)
     {
         return self::isNotHiddenFile($name)
-            && self::isNotSystemFile($name);
+        && self::isNotSystemFile($name);
     }
 
     /**

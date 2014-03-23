@@ -19,8 +19,8 @@
             "app/database/seeds",
             "app/tests/TestCase.php"
         ],
-        "psr-0": {
-            "Subcomic": "app/lib"
+        "psr-4": {
+            "Subcomic\\": "app/lib/Subcomic/"
         }
     },
     "scripts": {

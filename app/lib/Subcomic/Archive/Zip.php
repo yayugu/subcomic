@@ -2,6 +2,8 @@
 
 namespace Subcomic\Archive;
 
+use Subcomic\ImageFileNameDetector;
+
 class Zip implements ArchiveInterface
 {
     /** @var \ZipArchive */
@@ -37,7 +39,7 @@ class Zip implements ArchiveInterface
         for ($i = 0; $i < $this->zip->numFiles; $i++) {
             $stat = $this->zip->statIndex($i);
             if ($this->statIsDir($stat)
-                || !\ImageFileNameDetector::isImage($stat['name'])
+                || !ImageFileNameDetector::isImage($stat['name'])
             ) {
                 continue;
             }

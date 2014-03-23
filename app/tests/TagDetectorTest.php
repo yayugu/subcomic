@@ -1,5 +1,7 @@
 <?php
 
+use Subcomic\TagDetector;
+
 class TagDetectorTest extends TestCase
 {
     public function testDirectoryTag()

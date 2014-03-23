@@ -1,5 +1,7 @@
 <?php
 
+use Subcomic\ImageFileNameDetector;
+
 class ImageFileNameDetectorTest extends TestCase
 {
     public function testNormalImage()

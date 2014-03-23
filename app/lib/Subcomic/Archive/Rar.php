@@ -2,6 +2,8 @@
 
 namespace Subcomic\Archive;
 
+use Subcomic\ImageFileNameDetector;
+
 class Rar implements ArchiveInterface
 {
     /** @var \RarArchive */
@@ -41,7 +43,7 @@ class Rar implements ArchiveInterface
         $index = 0;
         foreach ($entries as $entry) {
             if ($entry->isDirectory()
-                || !\ImageFileNameDetector::isImage($entry->getName())
+                || !ImageFileNameDetector::isImage($entry->getName())
             ) {
                 $index++;
                 continue;

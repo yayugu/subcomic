@@ -1,5 +1,7 @@
 <?php
 
+namespace Subcomic;
+
 class TagDetector
 {
     /**
