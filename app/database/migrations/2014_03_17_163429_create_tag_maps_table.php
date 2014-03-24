@@ -14,7 +14,7 @@ class CreateTagMapsTable extends Migration
     public function up()
     {
         Schema::create('tag_maps', function (Blueprint $table) {
-            $table->bigIncrements('id')->unsigned();
+            $table->bigIncrements('id');
             $table->bigInteger('comic_id')->unsigned();
             $table->bigInteger('tag_id')->unsigned();
             $table->timestamps();
