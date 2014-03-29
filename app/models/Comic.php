@@ -28,7 +28,7 @@ class Comic extends Eloquent
      */
     public function getAbsolutePath()
     {
-        return '/Users/yayugu/comic/'.$this->path;
+        return Config::get('subcomic.data_dir').'/'.$this->path;
     }
 
     /**

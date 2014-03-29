@@ -1,8 +1,6 @@
 <?php
 
-use Illuminate\Auth\UserInterface;
-
-class User extends Eloquent implements UserInterface
+class User extends Eloquent implements Illuminate\Auth\UserInterface
 {
 	protected $hidden = ['password'];
 

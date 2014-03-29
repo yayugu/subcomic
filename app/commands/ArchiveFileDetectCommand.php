@@ -39,7 +39,7 @@ class ArchiveFileDetectCommand extends Command
      */
     public function fire()
     {
-        $finder = Finder::create()->files()->name('/\.(?:zip|rar|pdf)\z/')->in('/Users/yayugu/comic');
+        $finder = Finder::create()->files()->name('/\.(?:zip|rar|pdf)\z/')->in(Config::get('subcomic.data_dir'));
 
         /** @var Symfony\Component\Finder\SplFileInfo $file */
         foreach ($finder as $file) {
