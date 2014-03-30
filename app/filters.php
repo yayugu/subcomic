@@ -44,9 +44,9 @@ Route::filter('auth.basic', function()
 	return Auth::basic();
 });
 
-Route::filter('basic.once', function()
+Route::filter('auth.once_basic', function()
 {
-    return Auth::onceBasic();
+    return Auth::onceBasic('name');
 });
 
 /*

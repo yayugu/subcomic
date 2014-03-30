@@ -14,3 +14,4 @@
 Artisan::add(new UnZipCommand);
 Artisan::add(new ArchiveFileDetectCommand);
 Artisan::add(new AutoTaggingCommand);
+Artisan::add(new UserAddCommand);
