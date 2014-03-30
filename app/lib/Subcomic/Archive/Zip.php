@@ -43,9 +43,10 @@ class Zip implements ArchiveInterface
             ) {
                 continue;
             }
-            $list[] = $i;
+            $list[$i] = $stat['name'];
         }
-        return $list;
+        natcasesort($list);
+        return array_keys($list);
     }
 
     /**

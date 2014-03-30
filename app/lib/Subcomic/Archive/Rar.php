@@ -48,9 +48,10 @@ class Rar implements ArchiveInterface
                 $index++;
                 continue;
             }
-            $list[] = $index;
+            $list[$index] = $entry->getName();
             $index++;
         }
-        return $list;
+        natcasesort($list);
+        return array_keys($list);
     }
 }
