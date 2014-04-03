@@ -33,7 +33,7 @@
             element.height = Math.max(b.clientHeight , b.scrollHeight, d.scrollHeight, d.clientHeight);
         }
         function showNext() {
-            $(current).replaceWith(imgs[index]);
+            $main.html(imgs[index]);
             current = imgs[index];
             index++;
         }

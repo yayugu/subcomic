@@ -11,7 +11,7 @@
 |
 */
 
-Route::group(['before' => 'auth.once_basic'], function() {
+Route::group(['before' => 'auth.basic'], function() {
     Route::get('/', 'HomeController@index');
     Route::get('/comic/tag/{tag}', 'ComicController@tagSearch');
     Route::get('/comic/{id}', 'ComicController@show');
