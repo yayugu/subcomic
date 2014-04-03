@@ -24,39 +24,7 @@
     }
 </style>
 <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
-<script>
-    $(function () {
-        function maximizeElement(element) {
-            var b = document.body;
-            var d = document.documentElement;
-            element.width = Math.max(b.clientWidth , b.scrollWidth, d.scrollWidth, d.clientWidth);
-            element.height = Math.max(b.clientHeight , b.scrollHeight, d.scrollHeight, d.clientHeight);
-        }
-        function showNext() {
-            $main.html(imgs[index]);
-            current = imgs[index];
-            index++;
-        }
-
-        var imgs = page_urls.map(function(page_url) {
-            var img = new Image();
-            img.src = page_url;
-            img.className = 'comic-page';
-            return img;
-        });
-        var $main = $('#main');
-        var main = $main[0];
-        var current = imgs[0];
-        var index = 0;
-
-        maximizeElement(main);
-        $main.append(imgs[0]);
-
-        $main.on('click', function() {
-            showNext();
-        });
-    });
-</script>
+{{ HTML::script('comic.js') }}
 <script>
     var page_urls = {{
         json_encode(array_map(function($page) use($comic) {
