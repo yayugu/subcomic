@@ -35,9 +35,30 @@ class TagDetector
      */
     public static function detectBracketTags($path)
     {
-        preg_match_all('/(?:\[)(.+?)(?:\])/', $path, $ms);
-        return count($ms) >= 1
-            ? $ms[1]
-            : [];
+        $ms = self::bracketMatch($path);
+        if (empty($ms[1])) {
+            return [];
+        }
+        $tag_removed_path = str_replace($ms[0], '', $path);
+        $tags_inner_tags = self::detectBracketTags($tag_removed_path);
+        return array_merge($tags_inner_tags, $ms[1]);
+    }
+
+    /**
+     * @param string $path
+     * @return array
+     */
+    protected static function bracketMatch($path)
+    {
+        $begin = '[ \[ \( ]';
+        $end   = '[ \] \) ]';
+        $tag_body = '[^ \[ \] \( \) ]+';
+        $pattern = '/
+          '.$begin.'
+          ('.$tag_body.')
+          '.$end.'
+        /x';
+        preg_match_all($pattern, $path, $matches);
+        return $matches;
     }
 }

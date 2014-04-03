@@ -24,4 +24,20 @@ class TagDetectorTest extends TestCase
             TagDetector::detect('[hoge][fuga]piyo.zip')
         );
     }
+
+    public function testParenthesisTag()
+    {
+        assertEquals(
+            ['hoge', 'fuga'],
+            TagDetector::detect('(hoge)(fuga)piyo.zip')
+        );
+    }
+
+    public function testRecursiveTag()
+    {
+        assertEquals(
+            ['hoge', 'fuga', 'piyo'],
+            TagDetector::detect('[hoge(fuga[piyo])]pi.zip')
+        );
+    }
 }
