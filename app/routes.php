@@ -14,6 +14,7 @@
 Route::group(['before' => 'auth.basic'], function() {
     Route::get('/', 'HomeController@index');
     Route::get('/comic/tag/{tag}', 'ComicController@tagSearch');
-    Route::get('/comic/{id}', 'ComicController@show');
+    Route::get('/comic/{id}/show', 'ComicController@show');
+    Route::get('/comic/{id}', 'ComicController@info');
     Route::get('/image/{archiveFileId}/{index}', 'BlobController@image');
 });

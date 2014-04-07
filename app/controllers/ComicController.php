@@ -2,6 +2,13 @@
 
 class ComicController extends \BaseController
 {
+    public function info($archiveFileId)
+    {
+        $comic = Comic::find($archiveFileId);
+        return View::make('comic.info')
+            ->with('comic', $comic);
+    }
+
     public function show($archiveFileId)
     {
         $comic = Comic::find($archiveFileId);
