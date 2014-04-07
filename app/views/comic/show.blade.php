@@ -28,7 +28,7 @@
 <script>
     var page_urls = {{
         json_encode(array_map(function($page) use($comic) {
-            return action('BlobController@image', ['archiveFileId' => $comic->id, 'index' => $page]);
+            return action('comicImage', ['archiveFileId' => $comic->id, 'index' => $page]);
         }, $pages));
     }}
 </script>
