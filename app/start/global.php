@@ -82,7 +82,7 @@ require app_path().'/filters.php';
 
 
 
-Event::listen("illuminate.query", function($query, $bindings, $time, $name){
+DB::listen(function($query, $bindings, $time){
     \Log::info($query."\n");
     \Log::info(json_encode($bindings)."\n");
 });

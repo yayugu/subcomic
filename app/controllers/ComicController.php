@@ -9,6 +9,13 @@ class ComicController extends \BaseController
             ->with('comic', $comic);
     }
 
+    public function search()
+    {
+        $comics = Comic::where('path', 'like', '%'.Input::get('q').'%')->get();
+        return View::make('comic.search')
+            ->with('comics', $comics);
+    }
+
     public function show($archiveFileId)
     {
         $comic = Comic::find($archiveFileId);

@@ -1,9 +1,10 @@
-<!doctype html>
-<html>
-<div class="welcome">
-    @foreach ($Comics as $comic)
-        {{link_to_action('comicInfo', $comic->path, ['id' => $comic->id])}}
-        {{link_to_action('comicShow', 'View', ['id' => $comic->id])}}<br>
-    @endforeach
-</div>
-</html>
+@extends('_layout')
+@section('content')
+    <form action="{{action('comicSearch')}}" method="get">
+        <input type="text" name="q">
+        <input type="submit">
+    </form>
+    <div>
+        @include('comic._list')
+    </div>
+@stop
