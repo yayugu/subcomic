@@ -13,7 +13,7 @@ class ArchiveFileDetectCommand extends Command
      *
      * @var string
      */
-    protected $name = 'command:archive_file_detect';
+    protected $name = 'cmd:file_detect';
 
     /**
      * The console command description.
@@ -50,6 +50,15 @@ class ArchiveFileDetectCommand extends Command
                 $record = new Comic;
                 $record->path = $path;
                 $record->save();
+            }
+        }
+
+        $data_dir = Config::get('subcomic.data_dir');
+        foreach (Comic::all() as $comic) {
+            $path = $data_dir.'/'.$comic->path;
+            if (!file_exists($path)) {
+                $this->info("remove file which cannnot found in path:".$path);
+                $comic->delete();
             }
         }
     }
