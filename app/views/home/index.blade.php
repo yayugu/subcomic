@@ -7,5 +7,5 @@
     <div>
         @include('comic._list')
     </div>
-    {{ $users->links('view.name'); }}
+    {{ $comics->links(); }}
 @stop
