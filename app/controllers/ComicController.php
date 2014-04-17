@@ -2,6 +2,13 @@
 
 class ComicController extends \BaseController
 {
+    public function index()
+    {
+        $comics = Comic::paginate(200);
+        return View::make('comic.index')
+            ->with('comics', $comics);
+    }
+
     public function info($archiveFileId)
     {
         $comic = Comic::find($archiveFileId);
