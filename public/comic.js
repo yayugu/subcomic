@@ -55,14 +55,32 @@ $(function () {
         return match[1]
     }
 
-    function maximizeElement(element) {
-        var b = document.body;
-        var d = document.documentElement;
-        element.width = Math.max(b.clientWidth, b.scrollWidth, d.scrollWidth, d.clientWidth);
-        element.height = Math.max(b.clientHeight, b.scrollHeight, d.scrollHeight, d.clientHeight);
+    function fitToWindow(element) {
+        var s = element.style;
+
+        s.position = "absolute";
+        s.margin = "auto";
+        s.left = "0px";
+        s.top = "0px";
+        s.bottom = "0px";
+        s.right = "0px";
+
+        var rateWidth = element.width / window.innerWidth;
+        var rateHeight = element.height / window.innerHeight;
+        var rate = element.height / element.width;
+
+        if (rateWidth > rateHeight) {
+            s.width = innerWidth + "px";
+            s.height = innerWidth * rate + "px";
+        }
+        else {
+            s.width = innerHeight / rate + "px";
+            s.height = innerHeight + "px";
+        }
     }
 
     function show() {
+        fitToWindow(book.current());
         $main.html(book.current());
         location.replace(hashedUrl(book.index()));
     }
@@ -70,7 +88,6 @@ $(function () {
     var $main = $('#main');
     var main = $main[0];
 
-    maximizeElement(main);
     if (indexFromHash() !== undefined) {
         book.setIndex(indexFromHash());
     }

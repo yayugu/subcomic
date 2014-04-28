@@ -16,7 +16,6 @@
     body {
         margin: 0px;
         height: 100%;
-        position: fixed;
     }
     #main {
         margin: 0px;
