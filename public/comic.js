@@ -28,6 +28,9 @@ $(function () {
             length: function() { return page_urls.length },
             index: function() { return index; },
             setIndex: function (i) { index = i; },
+            previous: function() {
+                return getElementWithCacheAroundPage(index--);
+            },
             current: function () {
                 return getElementWithCacheAroundPage(index);
             },
@@ -93,7 +96,15 @@ $(function () {
     }
     show();
 
-    $main.on('click', function () {
+    $main.on('click', function (event) {
+        var y = event.pageY;
+        var height = window.innerHeight;
+
+        if (y < height / 2) {
+            book.previous();
+            show();
+            return;
+        }
         book.next();
         show();
     });
