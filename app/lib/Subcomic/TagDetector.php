@@ -31,7 +31,7 @@ class TagDetector
           [ '.$begin_tags.' ]
           ([^ '.$begin_tags.' '.$end_tags.' ]+)
           [ '.$end_tags.' ]
-        /x';
+        /xu';
         preg_match_all($pattern, $path, $matches);
         return $matches;
     }

@@ -45,4 +45,21 @@ class TagDetectorTest extends TestCase
             TagDetector::detect('[hoge]/[fuga]/[piyo]pipi.zip')
         );
     }
+
+
+    public function testEmptyTag()
+    {
+        assertEquals(
+            [],
+            TagDetector::detect('[]pipi.zip')
+        );
+    }
+
+    public function testUnicode()
+    {
+        assertEquals(
+            ['蒼き鋼のアルペジオ'],
+            TagDetector::detect('[蒼き鋼のアルペジオ]pipi.zip')
+        );
+    }
 }
