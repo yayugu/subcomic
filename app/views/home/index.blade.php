@@ -2,7 +2,7 @@
 @section('content')
     <form action="{{action('comicSearch')}}" method="get">
         <input type="text" name="q">
-        <input type="submit">
+        <button type="submit">検索</button>
     </form>
     <div>
         @include('comic._list')
