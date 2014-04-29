@@ -4,19 +4,6 @@ use Subcomic\TagDetector;
 
 class TagDetectorTest extends TestCase
 {
-    public function testDirectoryTag()
-    {
-        assertEquals(
-            ['hoge', 'fuga'],
-            TagDetector::detect('hoge/fuga/piyo.zip')
-        );
-
-        assertEquals(
-            [],
-            TagDetector::detect('piyo.zip')
-        );
-    }
-
     public function testBracketTag()
     {
         assertEquals(
@@ -25,11 +12,16 @@ class TagDetectorTest extends TestCase
         );
     }
 
-    public function testParenthesisTag()
+    public function testVariousTag()
     {
         assertEquals(
             ['hoge', 'fuga'],
-            TagDetector::detect('(hoge)(fuga)piyo.zip')
+            TagDetector::detect('(hoge)（fuga）piyo.zip')
+        );
+
+        assertEquals(
+            ['hoge', 'fuga'],
+            TagDetector::detect('【hoge】［fuga］piyo.zip')
         );
     }
 
@@ -38,6 +30,19 @@ class TagDetectorTest extends TestCase
         assertEquals(
             ['hoge', 'fuga', 'piyo'],
             TagDetector::detect('[hoge(fuga[piyo])]pi.zip')
+        );
+    }
+
+    public function testDirectoryTag()
+    {
+        assertEquals(
+            [],
+            TagDetector::detect('hoge/fuga/piyo.zip')
+        );
+
+        assertEquals(
+            ['hoge', 'fuga', 'piyo'],
+            TagDetector::detect('[hoge]/[fuga]/[piyo]pipi.zip')
         );
     }
 }
