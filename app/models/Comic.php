@@ -34,9 +34,18 @@ class Comic extends Eloquent
     /**
      * @return string
      */
-    public function fileName()
+    public function getFileName()
     {
         return basename($this->path);
+    }
+
+    public function getUrlToShow()
+    {
+        if ($this->isPDF()) {
+            return asset('raw/'.$this->path);
+        }
+
+        return action('comicShow', ['id' => $this->id]);
     }
 
     /**

@@ -1,6 +1,8 @@
 @extends('_layout')
 @section('content')
-    {{link_to_action('comicShow', $comic->path, ['id' => $comic->id])}}<br><br>
+    <a href="{{$comic->getUrlToShow()}}">{{{$comic->path}}}</a>
+    <a href="{{asset('raw/'.$comic->path)}}">download</a>
+    <br><br>
 
     @foreach ($comic->tags as $tag)
         {{link_to_action('tagSearch', $tag->name, ['tag' => $tag->name])}}<br>

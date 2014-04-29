@@ -1,4 +1,4 @@
 @foreach ($comics as $comic)
-    {{link_to_action('comicInfo', $comic->fileName(), ['id' => $comic->id])}}
-    {{link_to_action('comicShow', 'View', ['id' => $comic->id])}}<br>
+    {{link_to_action('comicInfo', $comic->getFileName(), ['id' => $comic->id])}}
+    <a href="{{$comic->getUrlToShow()}}">View</a><br>
 @endforeach
