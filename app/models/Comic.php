@@ -32,6 +32,14 @@ class Comic extends Eloquent
     }
 
     /**
+     * @return string
+     */
+    public function fileName()
+    {
+        return basename($this->path);
+    }
+
+    /**
      * @return bool
      */
     public function isPDF()
