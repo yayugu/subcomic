@@ -14,7 +14,7 @@ class AutoTaggingCommand extends Command
      *
      * @var string
      */
-    protected $name = 'command:auto_tagging_detect';
+    protected $name = 'cmd:tagging_all';
 
     /**
      * The console command description.

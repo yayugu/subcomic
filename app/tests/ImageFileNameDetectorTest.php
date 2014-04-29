@@ -32,4 +32,9 @@ class ImageFileNameDetectorTest extends TestCase
     {
         assertFalse(ImageFileNameDetector::isImage('/__MACOSX/image.jpg'));
     }
+
+    public function testNotImgExtFile()
+    {
+        assertFalse(ImageFileNameDetector::isImage('/hoge.txt'));
+    }
 }

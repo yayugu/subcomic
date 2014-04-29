@@ -10,8 +10,18 @@ class ImageFileNameDetector
      */
     public static function isImage($name)
     {
-        return self::isNotHiddenFile($name)
-        && self::isNotSystemFile($name);
+        return self::isImageExt($name)
+            && self::isNotHiddenFile($name)
+            && self::isNotSystemFile($name);
+    }
+
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public static function isImageExt($name)
+    {
+        return preg_match('/\.(jpg|jpeg|png|gif|bmp)/i', $name);
     }
 
     /**

@@ -14,6 +14,7 @@ $(function () {
             }
             return elements[i];
         }
+
         function getElementWithCacheAroundPage(i) {
             getElement(i);
             getElement(i + 1);
@@ -24,18 +25,28 @@ $(function () {
             return getElement(i);
         }
 
+        function indexLast() {
+            return page_urls.length - 1;
+        }
+
         return {
             length: function() { return page_urls.length },
             index: function() { return index; },
             setIndex: function (i) { index = i; },
             previous: function() {
-                return getElementWithCacheAroundPage(index--);
+                index = (index <= 0)
+                    ? indexLast()
+                    : index - 1;
+                return getElementWithCacheAroundPage(index);
             },
             current: function () {
                 return getElementWithCacheAroundPage(index);
             },
             next: function() {
-                return getElementWithCacheAroundPage(index++);
+                index = (index >= indexLast())
+                    ? 0
+                    : index + 1;
+                return getElementWithCacheAroundPage(index);
             }
         };
     })(page_urls);
@@ -55,7 +66,7 @@ $(function () {
         if (match === null) {
             return undefined;
         }
-        return match[1]
+        return parseInt(match[1], 10);
     }
 
     function fitToWindow(element) {
@@ -92,6 +103,16 @@ $(function () {
         location.replace(hashedUrl(book.index()));
     }
 
+    function showNext() {
+        book.next();
+        show();
+    }
+
+    function showPrevious() {
+        book.previous();
+        show();
+    }
+
     var $main = $('#main');
     var main = $main[0];
 
@@ -105,11 +126,22 @@ $(function () {
         var height = window.innerHeight;
 
         if (y < height / 2) {
-            book.previous();
-            show();
+            showPrevious();
             return;
         }
-        book.next();
-        show();
+        showNext();
+    });
+
+    $(document).on('keydown', function (event) {
+        var keyCodeUp = 38;
+        var keyCodeDown = 40;
+        if (event.keyCode == keyCodeUp) {
+            showPrevious();
+            return;
+        }
+        if (event.keyCode == keyCodeDown) {
+            showNext();
+            return;
+        }
     });
 });
