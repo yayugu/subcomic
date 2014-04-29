@@ -9,3 +9,4 @@ Thumbs.db
 *.iml
 .idea
 /app/config/subcomic.php
+/public/raw
