@@ -68,17 +68,21 @@ $(function () {
         s.bottom = "0px";
         s.right = "0px";
 
-        var rateWidth = element.width / window.innerWidth;
-        var rateHeight = element.height / window.innerHeight;
+        var b = document.body;
+        var d = document.documentElement;
+        var maxWidth = Math.max(b.clientWidth, b.scrollWidth, d.scrollWidth, d.clientWidth);
+        var maxHeight = Math.max(b.clientHeight, b.scrollHeight, d.scrollHeight, d.clientHeight);
+        var rateWidth = element.width / maxWidth;
+        var rateHeight = element.height / maxHeight;
         var rate = element.height / element.width;
 
         if (rateWidth > rateHeight) {
-            s.width = innerWidth + "px";
-            s.height = innerWidth * rate + "px";
+            s.width = maxWidth + "px";
+            s.height = maxWidth * rate + "px";
         }
         else {
-            s.width = innerHeight / rate + "px";
-            s.height = innerHeight + "px";
+            s.width = maxHeight / rate + "px";
+            s.height = maxHeight + "px";
         }
     }
 
