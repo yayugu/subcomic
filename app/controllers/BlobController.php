@@ -12,7 +12,8 @@ class BlobController extends \BaseController
     {
         $comic = Comic::find($archiveFileId);
         $imageBlob = $comic->getArchive()->getFromIndex($index);
-        return Response::make($imageBlob)
+        $optimizedImageBlob = \Subcomic\ImageOptimizer::optimizeWithUserAgent($imageBlob);
+        return Response::make($optimizedImageBlob)
             ->header('Content-Type', 'image/jpeg');
     }
 
