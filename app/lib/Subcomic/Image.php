@@ -13,6 +13,7 @@ class Image
     public function __construct($blob)
     {
         $this->im = new \Imagick;
+        $this->im->setoption('jpeg:size', '2048x2048'); // hinting to load image faster.
         $this->im->readimageblob($blob, '');
     }
 
