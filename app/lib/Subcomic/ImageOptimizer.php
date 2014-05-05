@@ -39,14 +39,22 @@ class ImageOptimizer
     }
 
     /**
-     * @return int
+     * comics page aspect ratio of width:height is almost 1:sqrt(2).
+     * but cut books width is narrow than sqrt(2).
+     *
+     * @return Rect
      */
     public static function resizeWidthAndHeight()
     {
+        $rect = new Rect();
         if (\Agent::isMobile()) {
-            return 1136;
+            $rect->width = 804; // 1136 * sqrt(2)
+            $rect->height = 1136; // iPhone5 height
+            return $rect;
         }
-        return 2048;
+        $rect->width = 1148;
+        $rect->height = 2048;
+        return $rect;
     }
 
 }
