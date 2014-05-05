@@ -70,6 +70,15 @@ $(function () {
     }
 
     function fitToWindow(element) {
+        if (!element.complete)  {
+            $(element).on('load', function() {
+                fitToWindow(element);
+                element.style.visibility = 'visible';
+            });
+            element.style.visibility = 'hidden';
+            return;
+        }
+
         var s = element.style;
 
         s.position = "absolute";
