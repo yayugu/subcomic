@@ -9,17 +9,15 @@ class Image
 
     /**
      * @param string $blob
+     * @param int width
+     * @param int height
      */
-    public function __construct($blob)
+    public function __construct($blob, $width, $height)
     {
         $this->im = new \Imagick;
-        $this->im->setoption('jpeg:size', '2048x2048'); // hinting to load image faster.
+        $this->im->setoption('jpeg:size', $width.'x'.$height); // hinting to load image faster.
         $this->im->readimageblob($blob, '');
-    }
-
-    public function resize()
-    {
-        $this->im->resizeimage(2048, 2048, \Imagick::FILTER_LANCZOS, 1, true);
+        $this->im->resizeimage($width, $height, \Imagick::FILTER_LANCZOS, 1, true);
     }
 
     /**
