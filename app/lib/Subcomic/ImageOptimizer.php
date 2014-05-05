@@ -39,8 +39,8 @@ class ImageOptimizer
     }
 
     /**
-     * comics page aspect ratio of width:height is almost 1:sqrt(2).
-     * but cut books width is narrow than sqrt(2).
+     * a comic page ratio of width:height is almost 1:sqrt(2).
+     * but cut book width is shorter than sqrt(2).
      *
      * @return Rect
      */
