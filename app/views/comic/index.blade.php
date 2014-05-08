@@ -1,9 +1,6 @@
 @extends('_layout')
 @section('content')
-    <form action="{{action('comicSearch')}}" method="get">
-        <input type="text" name="q">
-        <input type="submit">
-    </form>
+    @include('comic._search_form')
     <div>
         @include('comic._list')
     </div>

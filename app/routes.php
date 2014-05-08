@@ -11,7 +11,7 @@
 |
 */
 
-Route::group(['before' => 'auth.basic'], function() {
+Route::group(['before' => 'auth'], function() {
     Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
     Route::get('/comic/tag/{tag}', ['as' => 'tagSearch', 'uses' => 'ComicController@tagSearch']);
     Route::get('/comic/search', ['as' => 'comicSearch', 'uses' => 'ComicController@search']);
@@ -19,4 +19,10 @@ Route::group(['before' => 'auth.basic'], function() {
     Route::get('/comic/{id}', ['as' => 'comicInfo', 'uses' =>  'ComicController@info']);
     Route::get('/comic', ['as' => 'comicIndex', 'uses' =>  'ComicController@index']);
     Route::get('/image/{archiveFileId}/{index}', ['as' => 'comicImage', 'uses' =>  'BlobController@image']);
+    Route::get('/user/create', ['as' => 'userCreate', 'uses' =>  'UserController@create']);
+    Route::post('/user', ['before' => 'csrf', 'as' => 'userStore', 'uses' =>  'UserController@store']);
 });
+
+Route::get('/login', ['as' => 'login', 'uses' => 'AuthController@loginForm']);
+Route::post('/login', ['before' => 'csrf', 'as' => 'login', 'uses' => 'AuthController@login']);
+Route::get('/logout', ['as' => 'logout', 'uses' => 'AuthController@logout']);
