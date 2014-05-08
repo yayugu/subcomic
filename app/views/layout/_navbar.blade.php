@@ -25,7 +25,7 @@
             </ul>
             <form action="{{action('comicSearch')}}" method="get" class="navbar-form navbar-right" role="search">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search">
+                    <input type="text" name="q" class="form-control">
                 </div>
                 <button type="submit" class="btn btn-default">Search</button>
             </form>
