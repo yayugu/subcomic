@@ -13,6 +13,7 @@
 
 Route::group(['before' => 'auth'], function() {
     Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
+    Route::get('/history', ['as' => 'history', 'uses' =>  'HomeController@history']);
     Route::get('/comic/tag/{tag}', ['as' => 'tagSearch', 'uses' => 'ComicController@tagSearch']);
     Route::get('/comic/search', ['as' => 'comicSearch', 'uses' => 'ComicController@search']);
     Route::get('/comic/{id}/show', ['as' => 'comicShow', 'uses' =>  'ComicController@show']);
@@ -21,6 +22,9 @@ Route::group(['before' => 'auth'], function() {
     Route::get('/image/{archiveFileId}/{index}', ['as' => 'comicImage', 'uses' =>  'BlobController@image']);
     Route::get('/user/create', ['as' => 'userCreate', 'uses' =>  'UserController@create']);
     Route::post('/user', ['before' => 'csrf', 'as' => 'userStore', 'uses' =>  'UserController@store']);
+    Route::get('/fav', ['as' => 'favorite', 'uses' => 'FavoriteController@index']);
+    Route::post('/fav', ['before' => 'csrf', 'as' => 'favorite', 'uses' => 'FavoriteController@store']);
+    Route::post('/fav/delete', ['before' => 'csrf', 'as' => 'favoriteDelete', 'uses' => 'FavoriteController@delete']);
 });
 
 Route::get('/login', ['as' => 'login', 'uses' => 'AuthController@loginForm']);

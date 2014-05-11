@@ -1,32 +1,22 @@
 <?php
 
-class HomeController extends BaseController
+class FavoriteController extends BaseController
 {
     public function index()
-    {
-        $comics = Comic::paginate(200);
-        $comics->setBaseUrl(action('comicIndex'));
-        $favoritesHash = Favorite::favoritesHashByComics($comics);
-        return View::make('home.index')
-            ->with('comics', $comics)
-            ->with('favoritesHash', $favoritesHash);
-    }
-
-    public function history()
     {
         $pagination = App::make('paginator');
         $pagination->setBaseUrl(action('history'));
         $perPage = 200;
-        $count = History::where('user_id', '=', Auth::user()->id)->count();
+        $count = Favorite::where('user_id', '=', Auth::user()->id)->count();
         $page = $pagination->getCurrentPage($count);
-        $histories = History::with('comic')
+        $favorites = Favorite::with('comic')
             ->where('user_id', '=', Auth::user()->id)
             ->orderBy('created_at', 'desc')
             ->skip(($page - 1) * $perPage)
             ->take($perPage)
             ->get();
-        $comics = $histories->map(function (History $history) {
-            return $history->comic;
+        $comics = $favorites->map(function(Favorite $favorite) {
+            return $favorite->comic;
         });
         $favoritesHash = Favorite::favoritesHashByComics($comics);
         $pagination = $pagination->make($comics->toArray(), $count, $perPage);
@@ -34,5 +24,22 @@ class HomeController extends BaseController
             ->with('comics', $comics)
             ->with('favoritesHash', $favoritesHash)
             ->with('pagination', $pagination);
+    }
+
+    public function store()
+    {
+        Favorite::create([
+            'user_id' => Auth::user()->id,
+            'comic_id' => Input::get('comic_id'),
+        ]);
+        return Response::make('');
+    }
+
+    public function delete()
+    {
+        Favorite::where('user_id', '=', Auth::user()->id)
+            ->where('comic_id', '=', Input::get('comic_id'))
+            ->delete();
+        return Response::make('');
     }
 }
