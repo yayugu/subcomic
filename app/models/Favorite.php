@@ -23,6 +23,9 @@ class Favorite extends Eloquent
         foreach ($comics as $comic) {
             $ids[] = $comic->id;
         }
+        if (empty($ids)) {
+            return [];
+        }
         $favorites = self::where('user_id', '=', Auth::user()->id)
             ->whereIn('comic_id', $ids)
             ->get();
