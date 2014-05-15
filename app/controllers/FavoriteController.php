@@ -20,7 +20,7 @@ class FavoriteController extends BaseController
         });
         $favoritesHash = Favorite::favoritesHashByComics($comics);
         $pagination = $pagination->make($comics->toArray(), $count, $perPage);
-        return View::make('home.history')
+        return View::make('favorite.index')
             ->with('comics', $comics)
             ->with('favoritesHash', $favoritesHash)
             ->with('pagination', $pagination);
