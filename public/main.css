@@ -1,4 +1,7 @@
 .favorite-button {
-    color: #ffff44;
-    -webkit-text-stroke: 1px #000;
+    cursor: pointer;
+}
+
+.favorite-button-full {
+    color: #E3CF7A;
 }

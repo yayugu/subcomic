@@ -9,6 +9,11 @@ $(function() {
     function updateStarred(elm, starred) {
         elm.dataset.starred = starred ? 'true' : 'false';
         elm.innerHTML = starred ? '★' : '☆';
+        if (starred) {
+            $(elm).addClass('favorite-button-full')
+        } else {
+            $(elm).removeClass('favorite-button-full');
+        }
     }
 
     function isStarred(elm) {
