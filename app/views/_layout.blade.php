@@ -19,6 +19,7 @@
         <script>
             window.scConfig = {{ json_encode($config) }};
         </script>
+        <title>Subcomic</title>
     </head>
     <body>
         <div class="container">
