@@ -49,7 +49,7 @@ class AutoTaggingCommand extends Command
                     continue;
                 }
                 $tag = Tag::firstOrCreate(['name' => $tag_name]);
-                $tag_map = TagMap::create(['comic_id' => $comic->id, 'tag_id' => $tag->id]);
+                TagMap::create(['comic_id' => $comic->id, 'tag_id' => $tag->id]);
             }
         }
     }
