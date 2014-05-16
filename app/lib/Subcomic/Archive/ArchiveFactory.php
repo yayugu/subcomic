@@ -20,7 +20,7 @@ class ArchiveFactory
             case 'rar':
                 return new Rar($path);
             default:
-                throw new Exception ('unknown ext name');
+                throw new \Exception ('unknown ext name');
         }
     }
 }
