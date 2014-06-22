@@ -44,11 +44,11 @@ class ArchiveFileDetectCommand extends Command
         /** @var Symfony\Component\Finder\SplFileInfo $file */
         foreach ($finder as $file) {
             $path = Normalizer::normalize($file->getRelativePathname(), Normalizer::FORM_C); // For OSX
-            $record = Comic::where('path', '=', $path)->first();
+            $record = new Comic;
+            $record->path = $path;
+            $record->filename_sha1 = $sha1 = sha1($record->getFileName(), true);
+            $record = Comic::where('filename_sha1', '=', $sha1)->first();
             if (!$record) {
-                $this->info("create path:".$path);
-                $record = new Comic;
-                $record->path = $path;
                 $record->save();
             }
         }
