@@ -27,6 +27,8 @@ class HomeController extends BaseController
             ->get();
         $comics = $histories->map(function (History $history) {
             return $history->comic;
+        })->filter(function ($comic) {
+            return $comic instanceof Comic;
         });
         $favoritesHash = Favorite::favoritesHashByComics($comics);
         $pagination = $pagination->make($comics->toArray(), $count, $perPage);

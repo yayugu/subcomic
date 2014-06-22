@@ -47,8 +47,8 @@ class ArchiveFileDetectCommand extends Command
             $record = new Comic;
             $record->path = $path;
             $record->filename_sha1 = $sha1 = sha1($record->getFileName(), true);
-            $record = Comic::where('filename_sha1', '=', $sha1)->first();
-            if (!$record) {
+            $exists = !!Comic::where('filename_sha1', '=', $sha1)->first();
+            if (!$exists) {
                 $record->save();
             }
         }

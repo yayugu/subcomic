@@ -21,6 +21,9 @@ class Favorite extends Eloquent
     {
         $ids = [];
         foreach ($comics as $comic) {
+            if (!($comic instanceof Comic)) {
+                continue;
+            }
             $ids[] = $comic->id;
         }
         if (empty($ids)) {
