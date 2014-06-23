@@ -17,6 +17,8 @@ class FavoriteController extends BaseController
             ->get();
         $comics = $favorites->map(function(Favorite $favorite) {
             return $favorite->comic;
+        })->filter(function ($comic) {
+            return $comic instanceof Comic;
         });
         $favoritesHash = Favorite::favoritesHashByComics($comics);
         $pagination = $pagination->make($comics->toArray(), $count, $perPage);
