@@ -2,6 +2,7 @@
 
 class Tag extends Eloquent
 {
+    protected $primaryKey = 'name_sha1';
     protected $fillable = ['name'];
 
     /**
@@ -9,6 +10,6 @@ class Tag extends Eloquent
      */
     public function comics()
     {
-        return $this->belongsToMany('Comic', 'tag_maps');
+        return $this->belongsToMany('Comic', 'tag_maps', 'tag_name_sha1', 'comic_id');
     }
 }

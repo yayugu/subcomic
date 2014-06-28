@@ -11,7 +11,7 @@ class Comic extends Eloquent
      */
     public function tags()
     {
-        return $this->belongsToMany('Tag', 'tag_maps');
+        return $this->belongsToMany('Tag', 'tag_maps', 'comic_id', 'tag_name_sha1');
     }
 
     /**

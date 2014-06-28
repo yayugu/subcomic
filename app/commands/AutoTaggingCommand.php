@@ -36,22 +36,57 @@ class AutoTaggingCommand extends Command
     public function fire()
     {
         $comics = Comic::all();
+        $tag_buffer = [];
+        $tag_map_buffer = [];
+        $index = 0;
 
         foreach ($comics as $comic) {
             $tag_names = TagDetector::detect($comic->path);
             foreach ($tag_names as $tag_name) {
-                if (TagMap::where('comic_id', '=', $comic->id)
-                    ->whereHas('tag', function ($q) use ($tag_name) {
-                        $q->where('name', 'like', $tag_name);
-                    })
-                    ->first()
-                ) {
-                    continue;
+                $tag_name_sha1 = sha1($tag_name, true);
+                $tag_buffer[] = [
+                    $tag_name,
+                    $tag_name_sha1,
+                ];
+                $tag_map_buffer[] = [
+                    $comic->id,
+                    $tag_name_sha1,
+                ];
+                $index++;
+                if (count($tag_buffer) >= 4000) {
+                    $this->bulkInsertTag($tag_buffer);
+                    $this->bulkInsertTagMap($tag_map_buffer);
+                    $tag_buffer = [];
+                    $tag_map_buffer = [];
+                    $this->info($index);
                 }
-                $tag = Tag::firstOrCreate(['name' => $tag_name]);
-                TagMap::create(['comic_id' => $comic->id, 'tag_id' => $tag->id]);
             }
         }
+        $this->bulkInsertTag($tag_buffer);
+        $this->bulkInsertTagMap($tag_map_buffer);
+        $this->info($index);
+    }
+
+    protected function bulkInsertTag($array)
+    {
+        \SCUtil\BulkInsert::bulkInsertOnDuplicateKeyUpdate(
+            'tags',
+            ['name', 'name_sha1'],
+            $array,
+            true, // with_timestamps,
+            '`name` = values(`name`)' // on_duplicate_key_update_query
+        );
+    }
+
+    protected function bulkInsertTagMap($array)
+    {
+        \SCUtil\BulkInsert::bulkInsertOnDuplicateKeyUpdate(
+            'tag_maps',
+            ['comic_id', 'tag_name_sha1'],
+            $array,
+            true, // with_timestamps,
+            '`comic_id` = values(`comic_id`), `tag_name_sha1` = values(`tag_name_sha1`)' // on_duplicate_key_update_query
+        );
     }
 
     /**
