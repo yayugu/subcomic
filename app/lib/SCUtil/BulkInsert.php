@@ -1,4 +1,4 @@
-<?
+<?php
 
 namespace SCUtil;
 
@@ -27,14 +27,14 @@ class BulkInsert
             $values = self::addedTimestampsToValues($values);
         }
         $query = self::createQuery($table, $column_names, $values, $on_duplicate_key_update_query);
-        DB::insert($query, $values->flatten());
+        \DB::insert($query, $values->flatten()->toArray());
     }
 
     /**
      * @param Collection $column_names
      * @return Collection
      */
-    protected static function addedTimestampsToColumn($column_names)
+    protected static function addedTimestampsToColumns($column_names)
     {
         $column_names[] = 'created_at';
         $column_names[] = 'updated_at';
@@ -42,7 +42,7 @@ class BulkInsert
     }
 
     /**
-     * @param Colletion $values
+     * @param Collection $values
      * @return Collection
      */
     protected static function addedTimestampsToValues($values)
@@ -56,8 +56,9 @@ class BulkInsert
     }
 
     /**
-     * @param array $column_names
-     * @param array $values       array of array
+     * @param string $table
+     * @param Collection $column_names
+     * @param Collection $values       array of array
      * @param string $on_duplicate_key_update_query
      * @return string
      */
@@ -70,16 +71,19 @@ class BulkInsert
             . 'values '
             . self::createPlaceholders($column_names->count(), $values->count()) . ' '
             . 'on duplicate key update '
-            . $on_duplicate_key_update_query
+            . $on_duplicate_key_update_query;
     }
 
     /**
-     * @param array $column_names
+     * @param Collection $column_names
      * @return string
      */
     protected static function createColumnQuery($column_names)
     {
-        return '(' . implode(', ', '`' . $column_names . '`') . ')';
+        $column_name_for_query_array = $column_names->map(function($column_name) {
+           return  '`' . $column_name . '`';
+        })->toArray();
+        return '(' . implode(', ', $column_name_for_query_array) . ')';
     }
 
     /**
@@ -87,7 +91,7 @@ class BulkInsert
      * @param int $count_of_items
      * @return string
      */
-    protected static function createPlaceholders($count_of_columns, $count_of_items);
+    protected static function createPlaceholders($count_of_columns, $count_of_items)
     {
         $query_item = '(' . implode(',', array_fill(0, $count_of_columns, '?')) . ')';
         return implode(',', array_fill(0, $count_of_items, $query_item));

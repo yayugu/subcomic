@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTagMapsTable extends Migration
+class CreateTagsTable extends Migration
 {
 
     /**
@@ -13,15 +13,16 @@ class CreateTagMapsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tag_maps', function (Blueprint $table) {
+        Schema::create('tags', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('comic_id')->unsigned();
-            $table->bigInteger('tag_id')->unsigned();
+            $table->string('name', 150);
             $table->timestamps();
 
-            $table->unique(['comic_id', 'tag_id']);
-            $table->index('tag_id');
+            $table->unique('name');
         });
+
+        DB::statement('ALTER TABLE `tags` ADD `name_sha1` BINARY(20) NOT NULL AFTER `name`');
+        DB::statement('ALTER TABLE `tags` ADD UNIQUE (`name_sha1`)');
     }
 
     /**
@@ -31,7 +32,7 @@ class CreateTagMapsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tag_maps');
+        Schema::drop('tags');
     }
 
 }
