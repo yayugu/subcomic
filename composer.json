@@ -22,6 +22,7 @@
         ],
         "psr-4": {
             "Subcomic\\": "app/lib/Subcomic/"
+            "SCUtil\\": "app/lib/SCUtil/"
         }
     },
     "scripts": {

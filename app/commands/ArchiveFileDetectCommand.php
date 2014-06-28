@@ -96,29 +96,13 @@ class ArchiveFileDetectCommand extends Command
 
     protected function bulkInsert($array)
     {
-        if (count($array) <= 0) {
-            return;
-        }
-        $base = 'insert into comics (`path`, `filename_sha1`, `updated_at`, `created_at`) VALUES ';
-        $base2 = 'on duplicate key update `filename_sha1` = values(`filename_sha1`)';
-        $pattern = '(?, ?, ?, ?)';
-        $date_string = date('Y-m-d H:i:s');
-
-        $query = $base;
-        for ($i = 0; $i < count($array) - 1; $i++) {
-            $query .= $pattern . ', ';
-        }
-        $query .= $pattern;
-        $query .= $base2;
-        $bindings = array_reduce($array, function($carry, $item) use($date_string) {
-            $carry[] = $item[0];
-            $carry[] = $item[1];
-            $carry[] = $date_string;
-            $carry[] = $date_string;
-            return $carry;
-        }, []);
-
-        DB::insert($query, $bindings);
+        \SCUtil\BulkInsert::bulkInsertOnDuplicateKeyUpdate(
+            'comics',
+            ['path', 'filename_sha1'],
+            $array,
+            true, // with_timestamps,
+            '`filename_sha1` = values(`filename_sha1`)' // on_duplicate_key_update_query
+        );
     }
 
     protected function delete()
