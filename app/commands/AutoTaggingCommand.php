@@ -54,20 +54,20 @@ class AutoTaggingCommand extends Command
                 ];
                 $index++;
                 if (count($tag_buffer) >= 4000) {
-                    $this->bulkInsertTag($tag_buffer);
-                    $this->bulkInsertTagMap($tag_map_buffer);
+                    $this->bulkInsertTags($tag_buffer);
+                    $this->bulkInsertTagMaps($tag_map_buffer);
                     $tag_buffer = [];
                     $tag_map_buffer = [];
                     $this->info($index);
                 }
             }
         }
-        $this->bulkInsertTag($tag_buffer);
-        $this->bulkInsertTagMap($tag_map_buffer);
+        $this->bulkInsertTags($tag_buffer);
+        $this->bulkInsertTagMaps($tag_map_buffer);
         $this->info($index);
     }
 
-    protected function bulkInsertTag($array)
+    protected function bulkInsertTags($array)
     {
         \SCUtil\BulkInsert::bulkInsertOnDuplicateKeyUpdate(
             'tags',
@@ -78,7 +78,7 @@ class AutoTaggingCommand extends Command
         );
     }
 
-    protected function bulkInsertTagMap($array)
+    protected function bulkInsertTagMaps($array)
     {
         \SCUtil\BulkInsert::bulkInsertOnDuplicateKeyUpdate(
             'tag_maps',

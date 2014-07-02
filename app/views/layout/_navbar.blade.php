@@ -20,6 +20,9 @@
                 <li>
                    <a href="{{action('history')}}">Histories</a>
                 </li>
+                <li>
+                   <a href="{{action('comicSync')}}">Sync</a>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">

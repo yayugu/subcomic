@@ -54,4 +54,10 @@ class ComicController extends \BaseController
             ->with('comics', $comics)
             ->with('favoritesHash', $favoritesHash);
     }
+
+    public function sync()
+    {
+        (new SyncFilesAndDB)->exec();
+        return Redirect::action('home');
+    }
 }
