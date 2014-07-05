@@ -45,7 +45,7 @@ class Comic extends Eloquent
         if ($parent_dirname === '') {
             return $filename;
         }
-        return $parent_dirname. '/' . $filename;
+        return $parent_dirname . '/' . $filename;
     }
 
     public function getUrlToShow()
