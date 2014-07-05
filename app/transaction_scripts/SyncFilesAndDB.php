@@ -23,7 +23,7 @@ class SyncFilesAndDB
 
         /** @var Symfony\Component\Finder\SplFileInfo $file */
         foreach ($finder as $file) {
-            $path = Normalizer::normalize($file->getRelativePathname(), Normalizer::FORM_C); // For OSXn
+            $path = Normalizer::normalize($file->getRelativePathname(), Normalizer::FORM_C); // For OSX
             $sha1 = sha1($path, true);
             $buffer[] = [
                 $path,
