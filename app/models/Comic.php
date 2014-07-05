@@ -4,6 +4,7 @@ use Subcomic\Archive\ArchiveFactory;
 
 class Comic extends Eloquent
 {
+    const FILENAME_TO_SHOW_WIDTH = 20;
     protected $table = 'comics';
 
     /**
@@ -34,9 +35,17 @@ class Comic extends Eloquent
     /**
      * @return string
      */
-    public function getFileName()
+    public function getFileNameToShow()
     {
-        return basename($this->path);
+        $filename = basename($this->path);
+        if (mb_strwidth($filename) >= self::FILENAME_TO_SHOW_WIDTH) {
+            return $filename;
+        }
+        $parent_dirname = basename(dirname($this->path));
+        if ($parent_dirname === '') {
+            return $filename;
+        }
+        return $parent_dirname. '/' . $filename;
     }
 
     public function getUrlToShow()
