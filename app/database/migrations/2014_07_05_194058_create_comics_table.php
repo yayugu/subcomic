@@ -19,8 +19,8 @@ class CreateComicsTable extends Migration
             $table->timestamps();
         });
 
-        DB::statement('ALTER TABLE `comics` ADD `filename_sha1` BINARY(20) NOT NULL AFTER `path`');
-        DB::statement('ALTER TABLE `comics` ADD UNIQUE (`filename_sha1`)');
+        DB::statement('ALTER TABLE `comics` ADD `path_sha1` BINARY(20) NOT NULL AFTER `path`');
+        DB::statement('ALTER TABLE `comics` ADD UNIQUE (`path_sha1`)');
     }
 
     /**

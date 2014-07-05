@@ -23,10 +23,8 @@ class SyncFilesAndDB
 
         /** @var Symfony\Component\Finder\SplFileInfo $file */
         foreach ($finder as $file) {
-            $path = Normalizer::normalize($file->getRelativePathname(), Normalizer::FORM_C); // For OSX
-            $record = new Comic;
-            $record->path = $path;
-            $sha1 = sha1($record->getFileName(), true);
+            $path = Normalizer::normalize($file->getRelativePathname(), Normalizer::FORM_C); // For OSXn
+            $sha1 = sha1($path, true);
             $buffer[] = [
                 $path,
                 $sha1,
@@ -96,10 +94,10 @@ class SyncFilesAndDB
     {
         \SCUtil\BulkInsert::bulkInsertOnDuplicateKeyUpdate(
             'comics',
-            ['path', 'filename_sha1'],
+            ['path', 'path_sha1'],
             $array,
             true, // with_timestamps,
-            '`filename_sha1` = values(`filename_sha1`)' // on_duplicate_key_update_query
+            '`path_sha1` = values(`path_sha1`)' // on_duplicate_key_update_query
         );
     }
 
