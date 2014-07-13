@@ -8,6 +8,9 @@ $(function () {
             if (i < 0 || page_urls.count <= i) return undefined;
             if (elements[i] == undefined) {
                 img = new Image();
+                $(img).on('error', function() {
+                   img.src = this.src; // reload
+                });
                 img.src = page_urls[i];
                 img.className = 'comic-page';
                 elements[i] = img;
