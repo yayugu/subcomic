@@ -1,4 +1,4 @@
-$(function () {
+$(function() {
     var book = (function(page_urls) {
         var index = 0;
         var elements = [];
@@ -9,7 +9,7 @@ $(function () {
             if (elements[i] == undefined) {
                 img = new Image();
                 $(img).on('error', function() {
-                   img.src = this.src; // reload
+                    img.src = this.src; // reload
                 });
                 img.src = page_urls[i];
                 img.className = 'comic-page';
@@ -33,16 +33,22 @@ $(function () {
         }
 
         return {
-            length: function() { return page_urls.length },
-            index: function() { return index; },
-            setIndex: function (i) { index = i; },
+            length: function() {
+                return page_urls.length
+            },
+            index: function() {
+                return index;
+            },
+            setIndex: function(i) {
+                index = i;
+            },
             previous: function() {
                 index = (index <= 0)
                     ? indexLast()
                     : index - 1;
                 return getElementWithCacheAroundPage(index);
             },
-            current: function () {
+            current: function() {
                 return getElementWithCacheAroundPage(index);
             },
             next: function() {
@@ -73,7 +79,7 @@ $(function () {
     }
 
     function fitToWindow(element) {
-        if (!element.complete)  {
+        if (!element.complete) {
             $(element).on('load', function() {
                 fitToWindow(element);
                 element.style.visibility = 'visible';
@@ -133,7 +139,7 @@ $(function () {
     }
     show();
 
-    $main.on('click', function (event) {
+    $main.on('click', function(event) {
         var y = event.pageY;
         var height = window.innerHeight;
 
@@ -144,7 +150,7 @@ $(function () {
         showNext();
     });
 
-    $(document).on('keydown', function (event) {
+    $(document).on('keydown', function(event) {
         var keyCodeUp = 38;
         var keyCodeDown = 40;
         if (event.keyCode == keyCodeUp) {
@@ -156,4 +162,40 @@ $(function () {
             return;
         }
     });
+
+    function transform(translateX, translateY, scale) {
+        var t = "translate(" + translateX + 'px,' + translateY + "px) " +
+            "scale(" + scale + ',' + scale + ")";
+        d3.select("img")
+            .style("transform-origin", "0 0")
+            .style("-moz-transform-origin", "0 0")
+            .style("-webkit-transform-origin", "0 0")
+            .style("-ms-transform-origin", "0 0")
+            .style("transform", t)
+            .style("-moz-transform", t)
+            .style("-webkit-transform", t)
+            .style("-ms-transform", t);
+    }
+
+    function onZoom() {
+        transform(d3.event.translate[0], d3.event.translate[1], d3.event.scale);
+    }
+
+    function onZoomEnd() {
+        var epsilon = 0.01;
+        if (zoom.scale() <= 1 + epsilon) {
+            zoom.translate([0, 0]);
+            zoom.scale(1);
+            transform(0, 0, 1);
+        }
+    }
+
+    var zoom = d3.behavior.zoom()
+        .scale(1)
+        .scaleExtent([1, 4])
+        .on("zoom", onZoom)
+        .on("zoomend", onZoomEnd);
+
+    d3.select(main)
+        .call(zoom);
 });
