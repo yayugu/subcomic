@@ -5,8 +5,8 @@ $(function() {
 
         function getElement(i) {
             var img;
-            if (i < 0 || page_urls.count <= i) return undefined;
-            if (elements[i] == undefined) {
+            if (i < 0 || page_urls.length <= i) return undefined;
+            if (elements[i] === undefined) {
                 img = new Image();
                 $(img).on('error', function() {
                     img.src = this.src; // reload
