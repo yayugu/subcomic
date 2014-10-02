@@ -9,22 +9,25 @@
         height: 100%;
     }
 
-
-    .comic-page {
-        max-width: 100%;
-        max-height: 100%;
-    }
     body {
         margin: 0px;
+        height: 100%;
+        position: fixed;
+        overflow: hidden;
+        width: 100%;
         height: 100%;
     }
     #main {
         margin: 0px;
         padding: 0px;
+        position: fixed;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
     }
 </style>
 <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
-<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+{{ HTML::script('hammer.js') }}
 {{ HTML::script('comic.js') }}
 <script>
     var page_urls = {{

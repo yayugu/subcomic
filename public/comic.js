@@ -96,11 +96,12 @@ $(function() {
         s.top = "0px";
         s.bottom = "0px";
         s.right = "0px";
+        s.overflow = "hidden";
 
         var b = document.body;
         var d = document.documentElement;
-        var maxWidth = Math.max(b.clientWidth, b.scrollWidth, d.scrollWidth, d.clientWidth);
-        var maxHeight = Math.max(b.clientHeight, b.scrollHeight, d.scrollHeight, d.clientHeight);
+        var maxWidth = Math.max(b.clientWidth, d.clientWidth);
+        var maxHeight = Math.max(b.clientHeight, d.clientHeight);
         var rateWidth = element.width / maxWidth;
         var rateHeight = element.height / maxHeight;
         var rate = element.height / element.width;
@@ -119,6 +120,7 @@ $(function() {
         fitToWindow(book.current());
         $main.html(book.current());
         location.replace(hashedUrl(book.index()));
+        resetTransform();
     }
 
     function showNext() {
@@ -139,17 +141,6 @@ $(function() {
     }
     show();
 
-    $main.on('click', function(event) {
-        var y = event.pageY;
-        var height = window.innerHeight;
-
-        if (y < height / 2) {
-            showPrevious();
-            return;
-        }
-        showNext();
-    });
-
     $(document).on('keydown', function(event) {
         var keyCodeUp = 38;
         var keyCodeDown = 40;
@@ -166,36 +157,100 @@ $(function() {
     function transform(translateX, translateY, scale) {
         var t = "translate(" + translateX + 'px,' + translateY + "px) " +
             "scale(" + scale + ',' + scale + ")";
-        d3.select("img")
-            .style("transform-origin", "0 0")
-            .style("-moz-transform-origin", "0 0")
-            .style("-webkit-transform-origin", "0 0")
-            .style("-ms-transform-origin", "0 0")
-            .style("transform", t)
-            .style("-moz-transform", t)
-            .style("-webkit-transform", t)
-            .style("-ms-transform", t);
+        $(book.current()).css({
+            "transform-origin": "0 0",
+            "-moz-transform-origin": "0 0",
+            "-webkit-transform-origin": "0 0",
+            "-ms-transform-origin": "0 0",
+            "transform": t,
+            "-webkit-transform": t,
+            "-ms-transform": t
+        });
     }
 
-    function onZoom() {
-        transform(d3.event.translate[0], d3.event.translate[1], d3.event.scale);
+    function resetTransform() {
+        scale = 1;
+        deltaX = 0;
+        deltaY = 0;
+        transform(deltaX, deltaY, scale);
     }
 
-    function onZoomEnd() {
-        var epsilon = 0.01;
-        if (zoom.scale() <= 1 + epsilon) {
-            zoom.translate([0, 0]);
-            zoom.scale(1);
-            transform(0, 0, 1);
+    var hammertime = Hammer(main, {
+        transformMinScale: 0.01,
+        transformMinRotation: 360
+    });
+
+    var scale = 1;
+    var deltaX = 0;
+    var deltaY = 0;
+    var scaleTmp, deltaXTmp, deltaYTmp;
+    var lx, ly;
+    var pinched = false, dragged = false;
+    hammertime.on('tap pinch transformend dragstart drag dragend', function(ev) {
+        ev.gesture.preventDefault();
+        switch (ev.type) {
+            case "tap":
+                //var y = event.pageY;
+                //var height = window.innerHeight;
+
+                if (ev.gesture.center.clientY < window.innerHeight / 2) {
+                    showPrevious();
+                    return;
+                }
+                showNext();
+                break;
+            case "pinch":
+                console.log("pinch");
+                scaleTmp = scale * ev.gesture.scale;
+                //deltaXTmp = deltaX - ev.gesture.deltaX * scaleTmp;
+                //deltaYTmp = deltaY - ev.gesture.deltaY * scaleTmp;
+                lx = (ev.gesture.startEvent.center.clientX - deltaX) / scale;
+                ly = (ev.gesture.startEvent.center.clientY - deltaY) / scale;
+                deltaXTmp = ev.gesture.center.clientX - lx * scaleTmp;
+                deltaYTmp = ev.gesture.center.clientY - ly * scaleTmp;
+                transform(deltaXTmp, deltaYTmp, scaleTmp);
+                pinched = true;
+                break;
+            case "transformend":
+                if (!pinched) break;
+                pinched = false;
+                console.log("transformend");
+                if (scaleTmp < 1) {
+                    scale = 1.0;
+                    deltaX = 0;
+                    deltaY = 0;
+                } else {
+                    scale = scaleTmp;
+                    deltaX = deltaXTmp;
+                    deltaY = deltaYTmp;
+                }
+                transform(deltaX, deltaY, scale);
+                break;
+            case "dragstart":
+                console.log("dragstart");
+                break;
+            case "drag":
+                console.log("drag");
+                lx = (ev.gesture.startEvent.center.clientX - ev.gesture.center.clientX);// / scale;
+                ly = (ev.gesture.startEvent.center.clientY - ev.gesture.center.clientY);// / scale;
+                deltaXTmp = deltaX - lx;
+                deltaYTmp = deltaY - ly;
+                scaleTmp = scale;
+                console.log([lx, deltaXTmp]);
+                transform(deltaXTmp, deltaYTmp, scale);
+                dragged = true;
+                break;
+            case "dragend":
+                if (!dragged) break;
+                dragged = false;
+                console.log("dragend");
+
+                scale = scaleTmp;
+                deltaX = deltaXTmp;
+                deltaY = deltaYTmp;
+                transform(deltaX, deltaY, scale);
+                break;
         }
-    }
 
-    var zoom = d3.behavior.zoom()
-        .scale(1)
-        .scaleExtent([1, 4])
-        .on("zoom", onZoom)
-        .on("zoomend", onZoomEnd);
-
-    d3.select(main)
-        .call(zoom);
+    });
 });
