@@ -16,7 +16,7 @@ class Image
         $this->im = new \Imagick;
         $this->im->setoption('jpeg:size', $rect->width.'x'.$rect->height); // hinting to load image faster.
         $this->im->readimageblob($blob, '');
-        $this->im->resizeimage($rect->width, $rect->height, \Imagick::FILTER_LANCZOS, 1, true);
+        $this->im->resizeimage($rect->width, $rect->height, \Imagick::FILTER_HERMITE, 1, true);
     }
 
     /**
