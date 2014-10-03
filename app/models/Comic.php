@@ -1,11 +1,15 @@
 <?php
 
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
 use Subcomic\Archive\ArchiveFactory;
 
 class Comic extends Eloquent
 {
+    use SoftDeletingTrait;
+
     const FILENAME_TO_SHOW_WIDTH = 20;
     protected $table = 'comics';
+    protected $dates = ['deleted_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
