@@ -83,7 +83,7 @@ class SyncFilesAndDB
         foreach (Comic::all() as $comic) {
             $path = $data_dir.'/'.$comic->path;
             if (!file_exists($path)) {
-                $this->info("remove file which cannnot found in path:".$path);
+                Log::info("remove file which cannnot found in path:".$path);
                 $comic->delete();
             }
         }
@@ -97,7 +97,7 @@ class SyncFilesAndDB
             ['path', 'path_sha1'],
             $array,
             true, // with_timestamps,
-            '`path_sha1` = values(`path_sha1`)' // on_duplicate_key_update_query
+            '`path_sha1` = values(`path_sha1`), `deleted_at` = NULL' // on_duplicate_key_update_query
         );
     }
 
