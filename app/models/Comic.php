@@ -72,6 +72,22 @@ class Comic extends Eloquent
     }
 
     /**
+     * @param string $query
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public static function search($query)
+    {
+        $keywords = mb_split(' ', $query);
+        if (count($keywords) === 0) {
+            return Comic::all();
+        }
+        $q = Comic::where('path', 'like', '%'.array_shift($keywords).'%');
+        return array_reduce($keywords, function($q, $keyword) {
+            return $q->where('path', 'like', '%'.$keyword.'%');
+        }, $q);
+    }
+
+    /**
      * @param $tag_name
      * @return \Illuminate\Database\Eloquent\Collection
      */
