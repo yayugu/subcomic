@@ -15,7 +15,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-left">
                 <li>
-                    <a href="{{action('favorite')}}">Favorites</a>
+                   <a href="{{action('favorite')}}">Favorites</a>
                 </li>
                 <li>
                    <a href="{{action('history')}}">Histories</a>
