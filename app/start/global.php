@@ -91,7 +91,7 @@ DB::listen(function ($query, $bindings, $time) {
  * </code>
  */
 Blade::extend(function ($value) {
-    return preg_replace('/\{\?(.+)\?\}/s', '<?php ${1} ?>', $value);
+    return preg_replace('/\{\?(.+?)\?\}/s', '<?php ${1} ?>', $value);
 });
 
 setlocale(LC_ALL, "en_US.UTF8");

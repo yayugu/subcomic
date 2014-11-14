@@ -62,6 +62,21 @@ class Comic extends Eloquent
     }
 
     /**
+     * @return string|null
+     */
+    public function getThumbnailURL()
+    {
+        if ($this->isPDF()) {
+            return null;
+        }
+        $imageList = $this->getArchive()->getImageList();
+        if (empty($imageList)) {
+            return null;
+        }
+        return action('comicImage', ['archiveFileId' => $this->id, 'index' => $imageList[0]]);
+    }
+
+    /**
      * @return bool
      */
     public function isPDF()
