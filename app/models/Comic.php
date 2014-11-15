@@ -69,11 +69,21 @@ class Comic extends Eloquent
         if ($this->isPDF()) {
             return null;
         }
-        $imageList = $this->getArchive()->getImageList();
-        if (empty($imageList)) {
+        $index = CacheS::get('comic_img_idx_fst_'.$this->id);
+        if ($index === 'null') {
             return null;
         }
-        return action('comicImage', ['archiveFileId' => $this->id, 'index' => $imageList[0]]);
+        if ($index === null) {
+            $imageList = $this->getArchive()->getImageList();
+            if (empty($imageList)) {
+                CacheS::set('comic_img_idx_fst_'.$this->id, 'null');
+                return null;
+            }
+            $index = $imageList[0];
+            CacheS::set('comic_img_idx_fst_'.$this->id, $index);
+        }
+
+        return action('comicImage', ['archiveFileId' => $this->id, 'index' => $index]);
     }
 
     /**
