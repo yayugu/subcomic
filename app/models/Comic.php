@@ -91,11 +91,11 @@ class Comic extends Eloquent
      */
     public function getRawUrl()
     {
-        $separated_path = mb_split("/", $this->path);
-        $encoded_path = '';
-        foreach ($separated_path as $name) {
-            $encoded_path .= urlencode($name);
+        $separated_path = mb_split("\/", $this->path);
+        foreach ($separated_path as $i => $name) {
+            $encoded_path[$i] = urlencode($name);
         }
+        $encoded_path = join('/', $encoded_path);
         return asset('raw/'.$encoded_path);
     }
 
