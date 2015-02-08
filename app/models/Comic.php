@@ -55,7 +55,7 @@ class Comic extends Eloquent
     public function getUrlToShow()
     {
         if ($this->isPDF()) {
-            return asset('raw/'.$this->path);
+            return $this->getRawUrl();
         }
 
         return action('comicShow', ['id' => $this->id]);
@@ -84,6 +84,19 @@ class Comic extends Eloquent
         }
 
         return action('comicImage', ['archiveFileId' => $this->id, 'index' => $index]);
+    }
+
+    /**
+     * @return string
+     */
+    public function getRawUrl()
+    {
+        $separated_path = mb_split("/", $this->path);
+        $encoded_path = '';
+        foreach ($separated_path as $name) {
+            $encoded_path .= urlencode($name);
+        }
+        return asset('raw/'.$encoded_path);
     }
 
     /**

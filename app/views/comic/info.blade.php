@@ -1,7 +1,7 @@
 @extends('_layout')
 @section('content')
     <a href="{{$comic->getUrlToShow()}}">{{{$comic->path}}}</a>
-    <a href="{{asset('raw/'.$comic->path)}}">download</a>
+    <a href="{{$comic->getRawUrl()}}">download</a>
     <br><br>
 
     @foreach ($comic->tags as $tag)
