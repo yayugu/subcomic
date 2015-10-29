@@ -6,7 +6,7 @@
     color: #E3CF7A;
 }
 
-/* avoid re-layout (a liitle) */
+/* avoid re-layout (a little) */
 .comic-list-row-wrapper {
     min-height: 42px;
 }
