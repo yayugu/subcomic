@@ -5,3 +5,8 @@
 .favorite-button-full {
     color: #E3CF7A;
 }
+
+/* avoid re-layout (a liitle) */
+.comic-list-row-wrapper {
+    min-height: 42px;
+}
