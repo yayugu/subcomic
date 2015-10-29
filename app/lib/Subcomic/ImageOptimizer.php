@@ -15,7 +15,7 @@ class ImageOptimizer
             return $imageBlob;
         }
         $pixel = self::resizeWidthAndHeight();
-        $image = new Image($imageBlob, $pixel, $pixel);
+        $image = new Image($imageBlob, $pixel);
         return $image->getBlob();
     }
 

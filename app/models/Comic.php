@@ -83,7 +83,11 @@ class Comic extends Eloquent
             CacheS::set('comic_img_idx_fst_'.$this->id, $index);
         }
 
-        return action('comicImage', ['archiveFileId' => $this->id, 'index' => $index]);
+        return action('comicImage', [
+            'archiveFileId' => $this->id,
+            'index' => $index,
+            'width' => 100,
+        ]);
     }
 
     /**
