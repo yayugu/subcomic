@@ -1,0 +1,5 @@
+<?php
+
+return [
+    'data_dir' => '/storage0/files',
+];

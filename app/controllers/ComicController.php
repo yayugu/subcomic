@@ -42,10 +42,16 @@ class ComicController extends \BaseController
             return Response::make(file_get_contents($comic->getAbsolutePath()))
                 ->header('Content-Type', 'application/pdf');
         }
+        /*
         return View::make('comic.show')
             ->with('comic', $comic)
-            ->with('pages', $comic->getArchive()->getImageList());
+            ->with('pages', $comic->getArchive()->getImageList());*/
+
+        return View::make('comic.show2')
+            ->with('comic', $comic)
+            ->with('pages', $comic->getArchive()->getImageList());;
     }
+
 
     public function tagSearch($tag_name)
     {
