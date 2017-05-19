@@ -1,6 +1,6 @@
 <?php
 
-class User extends Eloquent implements Illuminate\Auth\UserInterface
+class User extends Eloquent implements AuthenticatableContract
 {
     protected $fillable = ['name'];
     protected $hidden = ['password'];

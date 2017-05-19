@@ -1,11 +1,11 @@
 <?php
 
-use Illuminate\Database\Eloquent\SoftDeletingTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Subcomic\Archive\ArchiveFactory;
 
 class Comic extends Eloquent
 {
-    use SoftDeletingTrait;
+    use SoftDeletes;
 
     const FILENAME_TO_SHOW_WIDTH = 20;
     protected $table = 'comics';
@@ -58,7 +58,7 @@ class Comic extends Eloquent
             return $this->getRawUrl();
         }
 
-        return action('comicShow', ['id' => $this->id]);
+        return route('comicShow', ['id' => $this->id]);
     }
 
     /**
@@ -83,7 +83,7 @@ class Comic extends Eloquent
             CacheS::set('comic_img_idx_fst_'.$this->id, $index);
         }
 
-        return action('comicImage', [
+        return route('comicImage', [
             'archiveFileId' => $this->id,
             'index' => $index,
             'width' => 100,

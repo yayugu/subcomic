@@ -1,0 +1,49 @@
+<?php
+
+namespace App\Http\Controllers;
+
+class FavoriteController extends Controller
+{
+    public function index()
+    {
+        $pagination = \App::make('paginator');
+        $pagination->setBaseUrl(route('history'));
+        $perPage = 200;
+        $count = \Favorite::where('user_id', '=', \Auth::user()->id)->count();
+        $page = $pagination->getCurrentPage($count);
+        $favorites = \Favorite::with('comic')
+            ->where('user_id', '=', Auth::user()->id)
+            ->orderBy('created_at', 'desc')
+            ->skip(($page - 1) * $perPage)
+            ->take($perPage)
+            ->get();
+        $comics = $favorites->map(function(Favorite $favorite) {
+            return $favorite->comic;
+        })->filter(function ($comic) {
+            return $comic instanceof Comic;
+        });
+        $favoritesHash = \Favorite::favoritesHashByComics($comics);
+        $pagination = $pagination->make($comics->toArray(), $count, $perPage);
+        return \View::make('favorite.index')
+            ->with('comics', $comics)
+            ->with('favoritesHash', $favoritesHash)
+            ->with('pagination', $pagination);
+    }
+
+    public function store()
+    {
+        \Favorite::create([
+            'user_id' => \Auth::user()->id,
+            'comic_id' => \Input::get('comic_id'),
+        ]);
+        return \Response::make('');
+    }
+
+    public function delete()
+    {
+        \Favorite::where('user_id', '=', \Auth::user()->id)
+            ->where('comic_id', '=', \Input::get('comic_id'))
+            ->delete();
+        return \Response::make('');
+    }
+}
