@@ -22,7 +22,7 @@ class ComicController extends Controller
 
     public function search()
     {
-        $comics = \Comic::search(Input::get('q'))->get();
+        $comics = \Comic::search(\Input::get('q'))->get();
         $favoritesHash = \Favorite::favoritesHashByComics($comics);
         return \View::make('comic.search')
             ->with('comics', $comics)
