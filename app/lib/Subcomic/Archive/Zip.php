@@ -6,6 +6,8 @@ use Subcomic\ImageFileNameDetector;
 
 class Zip implements ArchiveInterface
 {
+    const COMPRESS_METHOD_ERROR = 100;
+
     /** @var \ZipArchive */
     protected $zip;
 
@@ -60,7 +62,11 @@ class Zip implements ArchiveInterface
 
     public function getCompressMethod(): int
     {
-        $stat = $this->zip->statIndex($this->getImageList()[0]);
+        $imageList = $this->getImageList();
+        if (empty($imageList)) {
+            return self::COMPRESS_METHOD_ERROR;
+        }
+        $stat = $this->zip->statIndex($imageList[0]);
         return $stat['comp_method'];
     }
 }
