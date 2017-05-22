@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Subcomic\Archive\ArchiveFactory;
+use Subcomic\Archive\ArchiveInterface;
 
 class Comic extends Eloquent
 {
@@ -26,6 +27,11 @@ class Comic extends Eloquent
     public function getArchive()
     {
         return ArchiveFactory::create($this->getAbsolutePath());
+    }
+
+    public function getExtension()
+    {
+        return ArchiveFactory::getExtension($this->getAbsolutePath());
     }
 
     /**

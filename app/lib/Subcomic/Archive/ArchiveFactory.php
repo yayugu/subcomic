@@ -6,14 +6,12 @@ class ArchiveFactory
 {
     /**
      * @param string $path
-     * @throws Exception
-     * @return \ArchiveInterface
+     * @return ArchiveInterface
+     * @throws \Exception
      */
     public static function create($path)
     {
-        $path = trim($path);
-        $pathinfo = pathinfo($path);
-        $ext = strtolower($pathinfo['extension']);
+        $ext = self::getExtension($path);
         switch ($ext) {
             case 'zip':
                 return new Zip($path);
@@ -22,5 +20,12 @@ class ArchiveFactory
             default:
                 throw new \Exception ('unknown ext name');
         }
+    }
+
+    public static function getExtension($path)
+    {
+        $path = trim($path);
+        $pathinfo = pathinfo($path);
+        return strtolower($pathinfo['extension']);
     }
 }

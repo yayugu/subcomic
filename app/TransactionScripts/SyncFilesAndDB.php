@@ -11,6 +11,7 @@ class SyncFilesAndDB
         $this->addedComicsToDB();
         $this->removeComicsFromDB();
         $this->detectTags();
+        $this->addedCompressLevel();
     }
 
     protected function addedComicsToDB()
@@ -76,14 +77,38 @@ class SyncFilesAndDB
         Log::info("detect end");
     }
 
+    protected function addedCompressLevel()
+    {
+        Log::info("compress method add start");
+        $comics = Comic::all();
+        $buffer = [];
+        foreach ($comics as $comic) {
+            if ($comic->getExtension() !== 'zip') {
+                continue;
+            }
+            /** @var \Subcomic\Archive\Zip $archive */
+            $archive = $comic->getArchive();
+            $buffer[] = [
+                'id' => $comic->id,
+                'compress' => $archive->getCompressMethod(),
+            ];
+            if (count($buffer) >= 4000) {
+                $this->bulkInsertCompress($buffer);
+                $buffer = [];
+            }
+        }
+        $this->bulkInsertCompress($buffer);
+        Log::info("compress method add end");
+    }
+
     protected function removeComicsFromDB()
     {
         Log::info("delete start");
         $data_dir = Config::get('subcomic.data_dir');
         foreach (Comic::all() as $comic) {
-            $path = $data_dir.'/'.$comic->path;
+            $path = $data_dir . '/' . $comic->path;
             if (!file_exists($path)) {
-                Log::info("remove file which cannnot found in path:".$path);
+                Log::info("remove file which cannnot found in path:" . $path);
                 $comic->delete();
             }
         }
@@ -120,6 +145,17 @@ class SyncFilesAndDB
             $array,
             true, // with_timestamps,
             '`comic_id` = values(`comic_id`), `tag_name_sha1` = values(`tag_name_sha1`)' // on_duplicate_key_update_query
+        );
+    }
+
+    protected function bulkInsertCompress($array)
+    {
+        \SCUtil\BulkInsert::bulkInsertOnDuplicateKeyUpdate(
+            'comics',
+            ['id', 'compress'],
+            $array,
+            true, // with_timestamps,
+            '`id` = values(`id`), `compress` = values(`compress`)' // on_duplicate_key_update_query
         );
     }
 }
