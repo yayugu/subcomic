@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Pagination\LengthAwarePaginator;
+
 class HomeController extends Controller
 {
     public function index()
@@ -16,24 +18,24 @@ class HomeController extends Controller
 
     public function history()
     {
-        $pagination = \App::make('paginator');
-        $pagination->setPath(route('history'));
         $perPage = 200;
         $count = \History::where('user_id', '=', \Auth::user()->id)->count();
-        $page = $pagination->getCurrentPage($count);
+        $page = LengthAwarePaginator::resolveCurrentPage();
         $histories = \History::with('comic')
             ->where('user_id', '=', \Auth::user()->id)
             ->orderBy('created_at', 'desc')
             ->skip(($page - 1) * $perPage)
             ->take($perPage)
             ->get();
-        $comics = $histories->map(function (History $history) {
+        $comics = $histories->map(function (\History $history) {
             return $history->comic;
         })->filter(function ($comic) {
             return $comic instanceof \Comic;
         });
         $favoritesHash = \Favorite::favoritesHashByComics($comics);
-        $pagination = $pagination->make($comics->toArray(), $count, $perPage);
+        $pagination = new LengthAwarePaginator($histories, $count, $perPage, $page, [
+            'path' => route('history'),
+        ]);
         return \View::make('home.history')
             ->with('comics', $comics)
             ->with('favoritesHash', $favoritesHash)

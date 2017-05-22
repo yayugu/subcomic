@@ -2,28 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Pagination\LengthAwarePaginator;
+
 class FavoriteController extends Controller
 {
     public function index()
     {
-        $pagination = \App::make('paginator');
-        $pagination->setBaseUrl(route('history'));
         $perPage = 200;
         $count = \Favorite::where('user_id', '=', \Auth::user()->id)->count();
-        $page = $pagination->getCurrentPage($count);
+        $page = LengthAwarePaginator::resolveCurrentPage();
         $favorites = \Favorite::with('comic')
-            ->where('user_id', '=', Auth::user()->id)
+            ->where('user_id', '=', \Auth::user()->id)
             ->orderBy('created_at', 'desc')
             ->skip(($page - 1) * $perPage)
             ->take($perPage)
             ->get();
-        $comics = $favorites->map(function(Favorite $favorite) {
+        $comics = $favorites->map(function(\Favorite $favorite) {
             return $favorite->comic;
         })->filter(function ($comic) {
-            return $comic instanceof Comic;
+            return $comic instanceof \Comic;
         });
         $favoritesHash = \Favorite::favoritesHashByComics($comics);
-        $pagination = $pagination->make($comics->toArray(), $count, $perPage);
+        $pagination = new LengthAwarePaginator($favorites, $count, $perPage, $page, [
+            'path' => route('favorite'),
+        ]);
         return \View::make('favorite.index')
             ->with('comics', $comics)
             ->with('favoritesHash', $favoritesHash)

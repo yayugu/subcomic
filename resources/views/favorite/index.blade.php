@@ -4,5 +4,5 @@
     <div>
         @include('comic._list')
     </div>
-    {{ $pagination->links(); }}
+    {{ $pagination->render() }}
 @stop
