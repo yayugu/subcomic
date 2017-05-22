@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\Sync;
+
 class ComicController extends Controller
 {
     public function index()
@@ -60,7 +62,7 @@ class ComicController extends Controller
 
     public function sync()
     {
-        (new \SyncFilesAndDB)->exec();
-        return \Redirect::route('home');
+        dispatch(new Sync());
+        return \Redirect::home();
     }
 }
