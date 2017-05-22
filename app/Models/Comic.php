@@ -119,7 +119,7 @@ class Comic extends Eloquent
      */
     public static function search($query)
     {
-        $keywords = mb_split(' ', $query);
+        $keywords = mb_split('[ 　]', $query);
         if (count($keywords) === 0) {
             return Comic::all();
         }
