@@ -58,7 +58,10 @@ class Zip implements ArchiveInterface
         return ($stat['size'] === 0 && preg_match('/\/\z/', $stat['name']));
     }
 
-    public function getStat(): array
+    /**
+     * @return array|null
+     */
+    public function getStat()
     {
         $imageList = $this->getImageList();
         if (empty($imageList)) {
