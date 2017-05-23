@@ -21,7 +21,7 @@ class ImageFileNameDetector
      */
     protected static function isImageExt($name)
     {
-        return preg_match('/\.(jpg|jpeg|png|gif|bmp)/i', $name);
+        return preg_match('/\.(jpg|jpeg|png|gif|bmp)$/i', $name);
     }
 
     /**

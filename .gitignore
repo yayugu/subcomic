@@ -6,6 +6,8 @@ Thumbs.db
 
 /config/subcomic.php
 /public/raw
+/public/tmp
+/public/converted
 /vendor
 /node_modules
 /public/storage

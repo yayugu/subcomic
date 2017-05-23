@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Response;
 use Subcomic\Image;
 use Subcomic\Rect;
 
@@ -21,7 +22,8 @@ class BlobController extends Controller
             $pixel = new Rect;
             $pixel->width = (int)\Input::get('width');
             $pixel->height = 0;
-            $image = new Image($imageBlob, $pixel);
+            $image = new Image($pixel);
+            $image->loadBlob($imageBlob);
             $optimizedImageBlob = $image->getBlob();
         } else {
             $optimizedImageBlob = \Subcomic\ImageOptimizer::optimizeWithUserAgent($imageBlob);

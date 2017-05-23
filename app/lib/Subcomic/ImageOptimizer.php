@@ -11,11 +11,12 @@ class ImageOptimizer
      */
     public static function optimizeWithUserAgent($imageBlob)
     {
-        if (self::shouldResize($imageBlob)) {
+        if (self::shouldNotResize($imageBlob)) {
             return $imageBlob;
         }
-        $pixel = self::resizeWidthAndHeight();
-        $image = new Image($imageBlob, $pixel);
+        $pixel = self::resizeRect();
+        $image = new Image($pixel);
+        $image->loadBlob($imageBlob);
         return $image->getBlob();
     }
 
@@ -23,7 +24,7 @@ class ImageOptimizer
      * @param string $imageBlob
      * @return int
      */
-    public static function shouldResize($imageBlob)
+    public static function shouldNotResize($imageBlob)
     {
         return strlen($imageBlob) < self::resizeBorderBlobSize();
     }
@@ -44,7 +45,7 @@ class ImageOptimizer
      *
      * @return Rect
      */
-    public static function resizeWidthAndHeight()
+    public static function resizeRect()
     {
         $rect = new Rect();
         if (\Agent::isMobile()) {
@@ -52,6 +53,19 @@ class ImageOptimizer
             $rect->height = 1136; // iPhone5 height
             return $rect;
         }
+        $rect->width = 1148;
+        $rect->height = 2048;
+        return $rect;
+    }
+
+    /**
+     * for general pre optimization
+     *
+     * @return Rect
+     */
+    public static function resizeRectGeneral()
+    {
+        $rect = new Rect();
         $rect->width = 1148;
         $rect->height = 2048;
         return $rect;
