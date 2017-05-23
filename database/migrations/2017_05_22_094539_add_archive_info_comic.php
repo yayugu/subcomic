@@ -16,6 +16,7 @@ class AddArchiveInfoComic extends Migration
         Schema::table('comics', function(Blueprint $table)
         {
             $table->integer("compress")->unsigned();
+            $table->integer("one_image_size")->unsigned();
         });
     }
 

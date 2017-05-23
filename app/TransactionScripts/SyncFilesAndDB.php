@@ -5,6 +5,8 @@ use Symfony\Component\Finder\Finder;
 
 class SyncFilesAndDB
 {
+    const COMPRESS_METHOD_ERROR = 100;
+
     public function exec()
     {
         Log::info("Sync files and DB.");
@@ -88,16 +90,25 @@ class SyncFilesAndDB
             }
             /** @var \Subcomic\Archive\Zip $archive */
             $archive = $comic->getArchive();
+            $stat = $archive->getStat();
+            if ($stat !== null) {
+                $compress = $stat['comp_method'];
+                $one_image_size_byte = $stat['size'];
+            } else {
+                $compress = self::COMPRESS_METHOD_ERROR;
+                $one_image_size_byte = 0;
+            }
             $buffer[] = [
                 'id' => $comic->id,
-                'compress' => $archive->getCompressMethod(),
+                'compress' => $compress,
+                'one_image_size' => $one_image_size_byte,
             ];
             if (count($buffer) >= 4000) {
-                $this->bulkInsertCompress($buffer);
+                $this->bulkInsertStat($buffer);
                 $buffer = [];
             }
         }
-        $this->bulkInsertCompress($buffer);
+        $this->bulkInsertStat($buffer);
         Log::info("compress method add end");
     }
 
@@ -148,14 +159,14 @@ class SyncFilesAndDB
         );
     }
 
-    protected function bulkInsertCompress($array)
+    protected function bulkInsertStat($array)
     {
         \SCUtil\BulkInsert::bulkInsertOnDuplicateKeyUpdate(
             'comics',
-            ['id', 'compress'],
+            ['id', 'compress', 'one_image_size'],
             $array,
-            true, // with_timestamps,
-            '`id` = values(`id`), `compress` = values(`compress`)' // on_duplicate_key_update_query
+            false, // with_timestamps,
+            '`id` = values(`id`), `compress` = values(`compress`), `one_image_size` = values(`one_image_size`)' // on_duplicate_key_update_query
         );
     }
 }
