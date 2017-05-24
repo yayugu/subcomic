@@ -30,7 +30,7 @@ class PreConvertAll implements ShouldQueue
      */
     public function handle()
     {
-        $comics = \Comic::all();
+        $comics = \Comic::where('one_image_size', '>', 2 * 1000 * 1000)->get(); // 2MB
         foreach ($comics as $comic) {
             dispatch(new PreConvert($comic->id));
         }
