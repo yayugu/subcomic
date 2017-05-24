@@ -8,7 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class Sync implements ShouldQueue
+class PreConvertAll implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -30,6 +30,9 @@ class Sync implements ShouldQueue
      */
     public function handle()
     {
-        (new \SyncFilesAndDB)->exec();
+        $comics = \Comic::all();
+        foreach ($comics as $comic) {
+            dispatch(new PreConvert($comic->id));
+        }
     }
 }

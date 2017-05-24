@@ -7,20 +7,18 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Subcomic\Converter;
 
-class Sync implements ShouldQueue
+class PreConvert implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $tries = 1;
+    protected $comicId;
 
-    /**
-     * Create a new job instance.
-     *
-     */
-    public function __construct()
+    public function __construct(int $comicId)
     {
-        //
+        $this->comicId = $comicId;
     }
 
     /**
@@ -30,6 +28,9 @@ class Sync implements ShouldQueue
      */
     public function handle()
     {
-        (new \SyncFilesAndDB)->exec();
+        $comic = \Comic::find($this->comicId);
+        (new Converter())->convert($this->comicId, $comic->getAbsolutePath());
+        $comic->converted = true;
+        $comic->saveOrFail();
     }
 }
