@@ -16,6 +16,7 @@ class Image
     public function __construct(Rect $rect)
     {
         $this->im = new \Imagick;
+        $this->im->setResourceLimit(\Imagick::RESOURCETYPE_THREAD, 1);
         $this->rect = $rect;
         $hintWidth = $rect->width !== 0 ? $rect->width : $rect->height;
         $hintHeight = $rect->height !== 0 ? $rect->height : $rect->width;
