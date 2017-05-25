@@ -40,7 +40,6 @@ class Image
      */
     public function getBlob()
     {
-
         return $this->im->getimageblob();
     }
 
