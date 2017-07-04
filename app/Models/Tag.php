@@ -3,10 +3,12 @@
 class Tag extends Eloquent
 {
     protected $primaryKey = 'name_sha1';
+    public $incrementing = false;
+
     protected $fillable = ['name'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function comics()
     {
