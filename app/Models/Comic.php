@@ -75,6 +75,9 @@ class Comic extends Eloquent
         if ($this->isPDF()) {
             return null;
         }
+        if ($this->converted === 1) {
+            return $this->convertedUrl(0);
+        }
         $index = CacheS::get('comic_img_idx_fst_'.$this->id);
         if ($index === 'null') {
             return null;
@@ -117,6 +120,11 @@ class Comic extends Eloquent
         $path_info = pathinfo($this->path);
         $ext = strtolower($path_info['extension']);
         return $ext === 'pdf';
+    }
+
+    private function convertedUrl($page)
+    {
+        return asset(sprintf("converted/%d/%04d.jpg", $this->id, $page));
     }
 
     /**
