@@ -29,8 +29,9 @@ class PreConvert implements ShouldQueue
     public function handle()
     {
         $comic = \Comic::find($this->comicId);
-        (new Converter())->convert($this->comicId, $comic->getAbsolutePath());
+        $numPages = (new Converter())->convert($this->comicId, $comic->getAbsolutePath());
         $comic->converted = true;
+        $comic->page = $numPages;
         $comic->saveOrFail();
     }
 }

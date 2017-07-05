@@ -32,9 +32,7 @@
 
 <script>
     var page_urls = {!!
-        json_encode(array_map(function($page) use($comic) {
-            return route('comicImage', ['archiveFileId' => $comic->id, 'index' => $page]);
-        }, $pages))
+        json_encode($comic->getPageUrls())
     !!}
 </script>
 <div id="main"></div>

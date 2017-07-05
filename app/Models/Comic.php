@@ -112,6 +112,21 @@ class Comic extends Eloquent
         return asset('raw/'.$encoded_path);
     }
 
+    public function getPageUrls()
+    {
+        if ($this->converted === 1) {
+            $urls = [];
+            for ($i = 0; $i < $this->page; $i++) {
+                $urls[] = $this->convertedUrl($i);
+            }
+            return $urls;
+        }
+        $pages = $this->getArchive()->getImageList();
+        return array_map(function($page) {
+            return route('comicImage', ['archiveFileId' => $this->id, 'index' => $page]);
+        }, $pages);
+    }
+
     /**
      * @return bool
      */

@@ -13,6 +13,11 @@ class Converter
     protected $tmpDir;
     protected $convertedDir;
 
+    /**
+     * @param int $id
+     * @param string $archive_path
+     * @return int  num pages
+     */
     public function convert(int $id, string $archive_path)
     {
         $this->archivePath = $archive_path;
@@ -21,7 +26,7 @@ class Converter
         $this->extractArchive();
         $this->flatten();
         $this->removeNotImageFiles();
-        $this->optimizeAndNormalizeImages();
+        return $this->optimizeAndNormalizeImages();
     }
 
     protected function extractArchive()
@@ -33,6 +38,7 @@ class Converter
             case 'zip':
                 $command = sprintf("unzip '%s' -d '%s'", $this->archivePath, $this->tmpDir);
                 break;
+            case 'rar':
             default:
                 throw new Exception("Unknown archive ext");
         }
@@ -55,6 +61,9 @@ class Converter
         }
     }
 
+    /**
+     * @return int  num pages
+     */
     protected function optimizeAndNormalizeImages()
     {
         exec(sprintf("rm -rf '%s'", $this->convertedDir));
@@ -75,5 +84,6 @@ class Converter
             $i++;
         }
         exec(sprintf("rm -rf '%s'", $this->tmpDir));
+        return $i;
     }
 }
