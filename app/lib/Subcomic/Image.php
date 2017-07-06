@@ -20,7 +20,11 @@ class Image
         $this->rect = $rect;
         $hintWidth = $rect->width !== 0 ? $rect->width : $rect->height;
         $hintHeight = $rect->height !== 0 ? $rect->height : $rect->width;
-        $this->im->setoption('jpeg:size', $hintWidth . 'x' . $hintHeight); // hinting to load image faster.
+
+        // 十分小さい場合のみヒントを付ける
+        if ($rect->width < 200) {
+            $this->im->setoption('jpeg:size', $hintWidth . 'x' . $hintHeight); // hinting to load image faster.
+        }
     }
 
     public function loadBlob($blob)
