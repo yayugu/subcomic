@@ -15,8 +15,6 @@ class ArchiveFactory
         switch ($ext) {
             case 'zip':
                 return new Zip($path);
-            case 'rar':
-                return new Rar($path);
             default:
                 throw new \Exception ('unknown ext name');
         }

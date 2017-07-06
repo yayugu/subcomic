@@ -39,6 +39,8 @@ class Converter
                 $command = sprintf("unzip '%s' -d '%s'", $this->archivePath, $this->tmpDir);
                 break;
             case 'rar':
+                $command = sprintf("unrar e '%s' '%s'", $this->archivePath, $this->tmpDir);
+                break;
             default:
                 throw new Exception("Unknown archive ext");
         }
