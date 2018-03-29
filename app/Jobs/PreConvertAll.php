@@ -31,8 +31,12 @@ class PreConvertAll implements ShouldQueue
     public function handle()
     {
         $comics = \Comic
-            ::where('one_image_size', '>', 2 * 1000 * 1000) // 2MB
-            ->orWhere('path', 'like', '%.rar')
+            ::where('converted', '=', 0)
+            ->where(function ($query) {
+                $query
+                    ->where('one_image_size', '>', 2 * 1000 * 1000)// 2MB
+                    ->orWhere('path', 'like', '%.rar');
+            })
             ->get();
         foreach ($comics as $comic) {
             dispatch(new PreConvert($comic->id));
