@@ -83,7 +83,7 @@ class SyncFilesAndDB
     {
         Log::info("compress method add start");
         $comics = Comic
-            ::where('compress_size', '=', 0)
+            ::where('compress', '=', 0)
             ->where('one_image_size', '=', 0)
             ->get();
 
