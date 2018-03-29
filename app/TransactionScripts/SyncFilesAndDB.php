@@ -82,7 +82,11 @@ class SyncFilesAndDB
     protected function addedCompressLevel()
     {
         Log::info("compress method add start");
-        $comics = Comic::all();
+        $comics = Comic
+            ::where('compress_size', '=', 0)
+            ->where('one_image_size', '=', 0)
+            ->get();
+
         $buffer = [];
         foreach ($comics as $comic) {
             if ($comic->getExtension() !== 'zip') {
