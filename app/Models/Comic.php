@@ -83,7 +83,11 @@ class Comic extends Eloquent
             return null;
         }
         if ($index === null) {
-            $imageList = $this->getArchive()->getImageList();
+            try {
+                $imageList = $this->getArchive()->getImageList();
+            } catch (\Exception $e) {
+                return '';
+            }
             if (empty($imageList)) {
                 CacheS::set('comic_img_idx_fst_'.$this->id, 'null');
                 return null;
