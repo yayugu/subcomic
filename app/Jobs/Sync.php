@@ -31,5 +31,6 @@ class Sync implements ShouldQueue
     public function handle()
     {
         (new \SyncFilesAndDB)->exec();
+        dispatch(new PreConvertAll());
     }
 }
