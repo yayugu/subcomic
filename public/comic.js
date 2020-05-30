@@ -120,7 +120,6 @@ $(function() {
         fitToWindow(book.current());
         $main.html(book.current());
         location.replace(hashedUrl(book.index()));
-        resetTransform();
     }
 
     function showNext() {
@@ -168,89 +167,12 @@ $(function() {
         });
     }
 
-    function resetTransform() {
-        scale = 1;
-        deltaX = 0;
-        deltaY = 0;
-        transform(deltaX, deltaY, scale);
-    }
-
-    var hammertime = Hammer(main, {
-        transformMinScale: 0.01,
-        transformMinRotation: 360
-    });
-
-    var scale = 1;
-    var deltaX = 0;
-    var deltaY = 0;
-    var scaleTmp, deltaXTmp, deltaYTmp;
-    var lx, ly;
-    var pinched = false, dragged = false;
-    hammertime.on('tap pinch transformend dragstart drag dragend', function(ev) {
-        ev.gesture.preventDefault();
-        switch (ev.type) {
-            case "tap":
-                //var y = event.pageY;
-                //var height = window.innerHeight;
-
-                if (ev.gesture.center.clientY < window.innerHeight / 2) {
-                    showPrevious();
-                    return;
-                }
-                showNext();
-                break;
-            case "pinch":
-                console.log("pinch");
-                scaleTmp = scale * ev.gesture.scale;
-                //deltaXTmp = deltaX - ev.gesture.deltaX * scaleTmp;
-                //deltaYTmp = deltaY - ev.gesture.deltaY * scaleTmp;
-                lx = (ev.gesture.startEvent.center.clientX - deltaX) / scale;
-                ly = (ev.gesture.startEvent.center.clientY - deltaY) / scale;
-                deltaXTmp = ev.gesture.center.clientX - lx * scaleTmp;
-                deltaYTmp = ev.gesture.center.clientY - ly * scaleTmp;
-                transform(deltaXTmp, deltaYTmp, scaleTmp);
-                pinched = true;
-                break;
-            case "transformend":
-                if (!pinched) break;
-                pinched = false;
-                console.log("transformend");
-                if (scaleTmp < 1) {
-                    scale = 1.0;
-                    deltaX = 0;
-                    deltaY = 0;
-                } else {
-                    scale = scaleTmp;
-                    deltaX = deltaXTmp;
-                    deltaY = deltaYTmp;
-                }
-                transform(deltaX, deltaY, scale);
-                break;
-            case "dragstart":
-                console.log("dragstart");
-                break;
-            case "drag":
-                console.log("drag");
-                lx = (ev.gesture.startEvent.center.clientX - ev.gesture.center.clientX);// / scale;
-                ly = (ev.gesture.startEvent.center.clientY - ev.gesture.center.clientY);// / scale;
-                deltaXTmp = deltaX - lx;
-                deltaYTmp = deltaY - ly;
-                scaleTmp = scale;
-                console.log([lx, deltaXTmp]);
-                transform(deltaXTmp, deltaYTmp, scale);
-                dragged = true;
-                break;
-            case "dragend":
-                if (!dragged) break;
-                dragged = false;
-                console.log("dragend");
-
-                scale = scaleTmp;
-                deltaX = deltaXTmp;
-                deltaY = deltaYTmp;
-                transform(deltaX, deltaY, scale);
-                break;
+    $main.on('click', function(ev) {
+        ev.preventDefault();
+        if (ev.clientY < window.innerHeight / 2) {
+            showPrevious();
+            return;
         }
-
+        showNext();
     });
 });
