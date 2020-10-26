@@ -8,7 +8,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $comics = \Comic::paginate(200);
+        $comics = \Comic::paginate(100);
         $comics->setPath(route('comicIndex'));
         $favoritesHash = \Favorite::favoritesHashByComics($comics);
         return \View::make('home.index')
@@ -18,7 +18,7 @@ class HomeController extends Controller
 
     public function history()
     {
-        $perPage = 200;
+        $perPage = 100;
         $count = \History::where('user_id', '=', \Auth::user()->id)->count();
         $page = LengthAwarePaginator::resolveCurrentPage();
         $histories = \History::with('comic')

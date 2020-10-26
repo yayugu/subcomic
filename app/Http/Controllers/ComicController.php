@@ -8,7 +8,7 @@ class ComicController extends Controller
 {
     public function index()
     {
-        $comics = \Comic::paginate(200);
+        $comics = \Comic::paginate(100);
         $favoritesHash = \Favorite::favoritesHashByComics($comics);
         return \View::make('comic.index')
             ->with('comics', $comics)

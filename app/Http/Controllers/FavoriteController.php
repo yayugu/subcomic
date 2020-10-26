@@ -8,7 +8,7 @@ class FavoriteController extends Controller
 {
     public function index()
     {
-        $perPage = 200;
+        $perPage = 100;
         $count = \Favorite::where('user_id', '=', \Auth::user()->id)->count();
         $page = LengthAwarePaginator::resolveCurrentPage();
         $favorites = \Favorite::with('comic')
