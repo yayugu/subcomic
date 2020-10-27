@@ -97,6 +97,7 @@ $(function() {
         s.bottom = "0px";
         s.right = "0px";
         s.overflow = "hidden";
+        s['user-select'] = 'none';
 
         var b = document.body;
         var d = document.documentElement;
