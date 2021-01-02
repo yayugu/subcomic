@@ -16,9 +16,9 @@
         @php
             $config = [
                 'csrfToken' => csrf_token(),
-                'urlBase' => route('home'),
-                'urlFavorite' => route('favorite'),
-                'urlFavoriteDelete' => route('favoriteDelete'),
+                'urlBase' => action('HomeController@index'),
+                'urlFavorite' => action('FavoriteController@store'),
+                'urlFavoriteDelete' => action('FavoriteController@delete'),
             ];
         @endphp
         <script>

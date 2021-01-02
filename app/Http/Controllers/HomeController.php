@@ -9,7 +9,7 @@ class HomeController extends Controller
     public function index()
     {
         $comics = \Comic::paginate(100);
-        $comics->setPath(route('comicIndex'));
+        $comics->setPath(action('ComicController@index'));
         $favoritesHash = \Favorite::favoritesHashByComics($comics);
         return \View::make('home.index')
             ->with('comics', $comics)
@@ -34,7 +34,7 @@ class HomeController extends Controller
         });
         $favoritesHash = \Favorite::favoritesHashByComics($comics);
         $pagination = new LengthAwarePaginator($histories, $count, $perPage, $page, [
-            'path' => route('history'),
+            'path' => action('HomeController@history'),
         ]);
         return \View::make('home.history')
             ->with('comics', $comics)

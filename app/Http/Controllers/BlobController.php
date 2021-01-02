@@ -20,7 +20,7 @@ class BlobController extends Controller
         $imageBlob = $comic->getArchive()->getFromIndex($index);
         if (\Input::has('width')) {
             $pixel = new Rect;
-            $pixel->width = (int)\Input::get('width');
+            $pixel->width = (int)\Request::input('width');
             $pixel->height = 0;
             $image = new Image($pixel);
             $image->loadBlob($imageBlob);

@@ -8,33 +8,33 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{route('home')}}">Subcomic</a>
+            <a class="navbar-brand" href="{{action('HomeController@index')}}">Subcomic</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-left">
                 <li>
-                   <a href="{{route('favorite')}}">Favorites</a>
+                   <a href="{{action('FavoriteController@index')}}">Favorites</a>
                 </li>
                 <li>
-                   <a href="{{route('history')}}">Histories</a>
+                   <a href="{{action('HomeController@history')}}">Histories</a>
                 </li>
                 <li>
-                   <a href="{{route('comicSync')}}">Sync</a>
+                   <a href="{{action('ComicController@sync')}}">Sync</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ Auth::user()->name }} <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{route('userCreate')}}">Add new user</a></li>
+                        <li><a href="{{action('UserController@create')}}">Add new user</a></li>
                         <li class="divider"></li>
-                        <li><a href="{{route('logout')}}">Logout</a></li>
+                        <li><a href="{{action('AuthController@logout')}}">Logout</a></li>
                     </ul>
                 </li>
             </ul>
-            <form action="{{route('comicSearch')}}" method="get" class="navbar-form navbar-right" role="search">
+            <form action="{{action('ComicController@search')}}" method="get" class="navbar-form navbar-right" role="search">
                 <div class="form-group">
                     <input
                         type="text"

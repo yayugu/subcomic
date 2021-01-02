@@ -8,7 +8,7 @@ class AuthController extends Controller
     public function loginForm()
     {
         if (\Auth::check()) {
-            return \Redirect::route('home');
+            return \Redirect::action('HomeController@index');
         }
         return \View::make('auth.form');
     }
@@ -16,19 +16,19 @@ class AuthController extends Controller
     public function login()
     {
         $attempt = [
-            'name' => \Input::get('name'),
-            'password' => \Input::get('password'),
+            'name' => \Request::input('name'),
+            'password' => \Request::input('password'),
         ];
         if (\Auth::attempt($attempt)) {
-            return \Redirect::intended('home');
+            return \Redirect::intended();
         }
-        return \Redirect::route('login');
+        return \Redirect::action('AuthController@login');
     }
 
     public function logout()
     {
         \Auth::logout();
-        return \Redirect::route('home');
+        return \Redirect::action('HomeController@index');
     }
 
 }

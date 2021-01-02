@@ -24,12 +24,12 @@ class ComicController extends Controller
 
     public function search()
     {
-        $comics = \Comic::search(\Input::get('q'))->get();
+        $comics = \Comic::search(\Request::input('q'))->get();
         $favoritesHash = \Favorite::favoritesHashByComics($comics);
         return \View::make('comic.search')
             ->with('comics', $comics)
             ->with('favoritesHash', $favoritesHash)
-            ->with('comic_search_query', \Input::get('q'));
+            ->with('comic_search_query', \Request::input('q'));
     }
 
     public function show($archiveFileId)

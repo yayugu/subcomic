@@ -6,27 +6,27 @@ class UserController extends Controller
 {
     public function create()
     {
-        return View::make('user.create');
+        return \View::make('user.create');
     }
 
     public function store()
     {
-        $name = Input::get('name');
-        if (User::where('name', '=', $name)->first()) {
-            return Response::make('error: user name is still used.');
+        $name = \Request::input('name');
+        if (\User::where('name', '=', $name)->first()) {
+            return \Response::make('error: user name is still used.');
         }
-        $password = Input::get('password');
+        $password = \Request::input('password');
         if (empty($password)) {
-            return Response::make('error: empty password.');
+            return \Response::make('error: empty password.');
         }
-        $password_confirm = Input::get('password-confirm');
+        $password_confirm = \Request::input('password-confirm');
         if ($password !== $password_confirm) {
-            return Response::make('error password and password confirm didn\'t match');
+            return \Response::make('error password and password confirm didn\'t match');
         }
-        $user = new User;
+        $user = new \User;
         $user->name = $name;
         $user->setPassword($password);
         $user->save();
-        return Response::make('user create succeed.');
+        return \Response::make('user create succeed.');
     }
 }

@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-5 col-md-5">
-        <form action="{{route('comicSearch')}}" method="get">
+        <form action="{{action('ComicController@search')}}" method="get">
             <div class="input-group">
                 <input type="text" name="q" class="form-control">
                 <span class="input-group-btn">

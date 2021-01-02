@@ -1,37 +1,22 @@
 <?php
 
-class User extends Eloquent implements AuthenticatableContract
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class User extends Eloquent implements
+    AuthenticatableContract,
+    AuthorizableContract
 {
     protected $fillable = ['name'];
     protected $hidden = ['password'];
 
-    public function getAuthIdentifier()
-    {
-        return $this->getKey();
-    }
-
-    public function getAuthPassword()
-    {
-        return $this->password;
-    }
+    use Authenticatable, Authorizable, hasFactory;
 
     public function setPassword($password)
     {
         $this->password = Hash::make($password);
-    }
-
-    public function getRememberToken()
-    {
-        return $this->remember_token;
-    }
-
-    public function setRememberToken($value)
-    {
-        $this->remember_token = $value;
-    }
-
-    public function getRememberTokenName()
-    {
-        return 'remember_token';
     }
 }

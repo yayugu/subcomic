@@ -24,7 +24,7 @@ class FavoriteController extends Controller
         });
         $favoritesHash = \Favorite::favoritesHashByComics($comics);
         $pagination = new LengthAwarePaginator($favorites, $count, $perPage, $page, [
-            'path' => route('favorite'),
+            'path' => action('FavoriteController@index'),
         ]);
         return \View::make('favorite.index')
             ->with('comics', $comics)
@@ -36,7 +36,7 @@ class FavoriteController extends Controller
     {
         \Favorite::create([
             'user_id' => \Auth::user()->id,
-            'comic_id' => \Input::get('comic_id'),
+            'comic_id' => \Request::input('comic_id'),
         ]);
         return \Response::make('');
     }
@@ -44,7 +44,7 @@ class FavoriteController extends Controller
     public function delete()
     {
         \Favorite::where('user_id', '=', \Auth::user()->id)
-            ->where('comic_id', '=', \Input::get('comic_id'))
+            ->where('comic_id', '=', \Request::input('comic_id'))
             ->delete();
         return \Response::make('');
     }

@@ -1,7 +1,7 @@
 @extends('_layout')
 @section('content')
 <h1>Add User</h1>
-<form action="{{route('userStore')}}" method="post" role="form">
+<form action="{{action('UserController@store')}}" method="post" role="form">
     <input type="hidden" name="_token" value="{{csrf_token()}}">
     <div class="form-group">
         <label>User name</label>
