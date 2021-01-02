@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => 'auth'], function() {
-    Route::get('/', [HomeController::class, 'index']);
+    Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/history', [HomeController::class, 'history']);
     Route::get('/comic/tag/{tag}', [ComicController::class, 'tagSearch']);
     Route::get('/comic/search', [ComicController::class, 'search']);

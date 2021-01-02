@@ -14,4 +14,11 @@ Thumbs.db
 Homestead.yaml
 Homestead.json
 .env
+/public/hot
+/storage/*.key
+.env.backup
+.phpunit.result.cache
+docker-compose.override.yml
+npm-debug.log
+yarn-error.log
 

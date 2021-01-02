@@ -64,7 +64,7 @@ class Comic extends Eloquent
             return $this->getRawUrl();
         }
 
-        return route('comicShow', ['id' => $this->id]);
+        return action('ComicController@show', ['id' => $this->id]);
     }
 
     /**
@@ -96,7 +96,7 @@ class Comic extends Eloquent
             CacheS::set('comic_img_idx_fst_'.$this->id, $index);
         }
 
-        return route('comicImage', [
+        return action('BlobController@image', [
             'archiveFileId' => $this->id,
             'index' => $index,
             'width' => 100,
@@ -122,7 +122,7 @@ class Comic extends Eloquent
         }
         $pages = $this->getArchive()->getImageList();
         return array_map(function($page) {
-            return route('comicImage', ['archiveFileId' => $this->id, 'index' => $page]);
+            return action('BlobController@image', ['archiveFileId' => $this->id, 'index' => $page]);
         }, $pages);
     }
 

@@ -14,7 +14,7 @@
 
             <td>
                 <a href="{{$comic->getUrlToShow()}}">{{$comic->getFileNameToShow()}}</a>
-                <a href="{{route('comicInfo', ['id' => $comic->id])}}" class="btn btn-default btn-xs">Info</a>
+                <a href="{{action('ComicController@info', ['id' => $comic->id])}}" class="btn btn-default btn-xs">Info</a>
                 <span
                     class="favorite-button"
                     data-comic-id="{{$comic->id}}"
