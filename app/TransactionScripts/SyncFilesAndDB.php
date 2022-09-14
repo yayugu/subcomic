@@ -19,7 +19,7 @@ class SyncFilesAndDB
     protected function addedComicsToDB()
     {
         Log::info("added start");
-        $finder = Finder::create()->files()->name('/\.(?:zip|rar|pdf)\z/')->in(Config::get('subcomic.data_dir'));
+        $finder = Finder::create()->files()->followLinks()->name('/\.(?:zip|rar|pdf)\z/')->in(Config::get('subcomic.data_dir'));
 
         $buffer = [];
         $index = 0;
