@@ -34,7 +34,7 @@ class PreConvertAll implements ShouldQueue
             ::where('converted', '=', 0)
             ->where(function ($query) {
                 $query
-                    ->where('one_image_size', '>', 2 * 1000 * 1000)// 2MB
+                    ->where('one_image_size', '>', 1 * 1000 * 1000)// 1MB
                     ->orWhere('path', 'like', '%.rar');
             })
             ->get();

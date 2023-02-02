@@ -32,6 +32,6 @@ class PreConvert implements ShouldQueue
         $numPages = (new Converter())->convert($this->comicId, $comic->getAbsolutePath());
         $comic->converted = true;
         $comic->page = $numPages;
-        $comic->saveOrFail();
+        $comic->save();
     }
 }

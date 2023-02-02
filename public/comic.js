@@ -144,11 +144,11 @@ $(function() {
     $(document).on('keydown', function(event) {
         var keyCodeUp = 38;
         var keyCodeDown = 40;
-        if (event.keyCode == keyCodeUp) {
+        if (event.key == 'k' || event.keyCode == keyCodeUp) {
             showPrevious();
             return;
         }
-        if (event.keyCode == keyCodeDown) {
+        if (event.key == 'j' || event.keyCode == keyCodeDown) {
             showNext();
             return;
         }
