@@ -11,15 +11,15 @@ class UserController extends Controller
 
     public function store()
     {
-        $name = Input::get('name');
+        $name = Request::get('name');
         if (User::where('name', '=', $name)->first()) {
             return Response::make('error: user name is still used.');
         }
-        $password = Input::get('password');
+        $password = Request::get('password');
         if (empty($password)) {
             return Response::make('error: empty password.');
         }
-        $password_confirm = Input::get('password-confirm');
+        $password_confirm = Request::get('password-confirm');
         if ($password !== $password_confirm) {
             return Response::make('error password and password confirm didn\'t match');
         }

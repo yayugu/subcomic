@@ -16,8 +16,8 @@ class AuthController extends Controller
     public function login()
     {
         $attempt = [
-            'name' => \Input::get('name'),
-            'password' => \Input::get('password'),
+            'name' => \Request::get('name'),
+            'password' => \Request::get('password'),
         ];
         if (\Auth::attempt($attempt)) {
             return \Redirect::intended('home');

@@ -18,9 +18,9 @@ class BlobController extends Controller
     {
         $comic = \Comic::find($archiveFileId);
         $imageBlob = $comic->getArchive()->getFromIndex($index);
-        if (\Input::has('width')) {
+        if (\Request::has('width')) {
             $pixel = new Rect;
-            $pixel->width = (int)\Input::get('width');
+            $pixel->width = (int)\Request::get('width');
             $pixel->height = 0;
             $image = new Image($pixel);
             $image->loadBlob($imageBlob);

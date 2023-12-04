@@ -36,7 +36,7 @@ class FavoriteController extends Controller
     {
         \Favorite::create([
             'user_id' => \Auth::user()->id,
-            'comic_id' => \Input::get('comic_id'),
+            'comic_id' => \Request::get('comic_id'),
         ]);
         return \Response::make('');
     }
@@ -44,7 +44,7 @@ class FavoriteController extends Controller
     public function delete()
     {
         \Favorite::where('user_id', '=', \Auth::user()->id)
-            ->where('comic_id', '=', \Input::get('comic_id'))
+            ->where('comic_id', '=', \Request::get('comic_id'))
             ->delete();
         return \Response::make('');
     }
