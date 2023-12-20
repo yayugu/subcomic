@@ -62,6 +62,6 @@ class ComicController extends Controller
     public function sync()
     {
         dispatch(new Sync());
-        return \Redirect::home();
+        return \Redirect::route('home');
     }
 }
