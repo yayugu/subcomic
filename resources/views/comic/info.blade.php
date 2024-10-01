@@ -2,6 +2,7 @@
 @section('content')
     <a href="{{$comic->getUrlToShow()}}">{!! $comic->path !!}</a>
     <a href="{!! $comic->getRawUrl() !!}">download</a>
+    <a href="{{route('comicPreConvert', ['id' => $comic->id])}}">preconvert</a>
     <br><br>
 
     @foreach ($comic->tags as $tag)

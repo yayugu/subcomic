@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\Sync;
+use App\Jobs\PreConvert;
 
 class ComicController extends Controller
 {
@@ -57,6 +58,12 @@ class ComicController extends Controller
         return \View::make('comic.tag_search')
             ->with('comics', $comics)
             ->with('favoritesHash', $favoritesHash);
+    }
+
+    public function preConvert($archiveFileId)
+    {
+        dispatch(new PreConvert($archiveFileId));
+        return \Redirect::route('home');
     }
 
     public function sync()

@@ -17,6 +17,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/comic/tag/{tag}', ['as' => 'tagSearch', 'uses' => 'ComicController@tagSearch']);
     Route::get('/comic/search', ['as' => 'comicSearch', 'uses' => 'ComicController@search']);
     Route::get('/comic/sync', ['as' => 'comicSync', 'uses' => 'ComicController@sync']);
+    Route::get('/comic/{id}/preconvert', ['as' => 'comicPreConvert', 'uses' =>  'ComicController@preConvert']);
     Route::get('/comic/{id}/show', ['as' => 'comicShow', 'uses' =>  'ComicController@show']);
     Route::get('/comic/{id}', ['as' => 'comicInfo', 'uses' =>  'ComicController@info']);
     Route::get('/comic', ['as' => 'comicIndex', 'uses' =>  'ComicController@index']);
