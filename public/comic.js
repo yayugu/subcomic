@@ -8,9 +8,6 @@ $(function() {
             if (i < 0 || page_urls.length <= i) return undefined;
             if (elements[i] === undefined) {
                 img = new Image();
-                $(img).on('error', function() {
-                    img.src = this.src; // reload
-                });
                 img.src = page_urls[i];
                 img.className = 'comic-page';
                 elements[i] = img;
@@ -79,15 +76,6 @@ $(function() {
     }
 
     function fitToWindow(element) {
-        if (!element.complete) {
-            $(element).on('load', function() {
-                fitToWindow(element);
-                element.style.visibility = 'visible';
-            });
-            element.style.visibility = 'hidden';
-            return;
-        }
-
         var s = element.style;
 
         s.position = "absolute";
@@ -119,7 +107,7 @@ $(function() {
 
     function show() {
         fitToWindow(book.current());
-        $main.html(book.current());
+        $main[0].replaceChildren(book.current());
         location.replace(hashedUrl(book.index()));
     }
 
@@ -159,12 +147,7 @@ $(function() {
             "scale(" + scale + ',' + scale + ")";
         $(book.current()).css({
             "transform-origin": "0 0",
-            "-moz-transform-origin": "0 0",
-            "-webkit-transform-origin": "0 0",
-            "-ms-transform-origin": "0 0",
             "transform": t,
-            "-webkit-transform": t,
-            "-ms-transform": t
         });
     }
 
