@@ -10,6 +10,7 @@ $(function() {
                 img = new Image();
                 img.src = page_urls[i];
                 img.className = 'comic-page';
+                img.decode();
                 elements[i] = img;
             }
             return elements[i];
@@ -141,15 +142,6 @@ $(function() {
             return;
         }
     });
-
-    function transform(translateX, translateY, scale) {
-        var t = "translate(" + translateX + 'px,' + translateY + "px) " +
-            "scale(" + scale + ',' + scale + ")";
-        $(book.current()).css({
-            "transform-origin": "0 0",
-            "transform": t,
-        });
-    }
 
     $main.on('click', function(ev) {
         ev.preventDefault();
