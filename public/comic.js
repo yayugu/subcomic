@@ -142,6 +142,17 @@ $(function() {
             return;
         }
     });
+    $(document).on('wheel', (event) => {
+        const deltaY = event.originalEvent.deltaY
+        if (!Number.isFinite(deltaY) || deltaY === 0) return;
+        if (deltaY < 0) {
+            showPrevious();
+            return;
+        }
+        if (deltaY > 0) {
+            showNext();
+        }
+    });
 
     $main.on('click', function(ev) {
         ev.preventDefault();
