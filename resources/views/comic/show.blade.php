@@ -30,13 +30,6 @@
         height: 100%;
     }
 </style>
-<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
-<script src="{{url('comic.js')}}"></script>
-
-<script>
-    var page_urls = {!!
-        json_encode($comic->getPageUrls())
-    !!}
-</script>
-<div id="main"></div>
+<script type="module" src="{{url('comic.js')}}"></script>
+<div id="main" data-page-urls="{!! htmlspecialchars(json_encode($comic->getPageUrls()), ENT_QUOTES, 'UTF-8') !!}"></div>
 </html>
