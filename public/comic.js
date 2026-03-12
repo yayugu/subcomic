@@ -63,9 +63,9 @@ function fitToWindow(el) {
 
   const maxWidth = Math.max(document.body.clientWidth, document.documentElement.clientWidth);
   const maxHeight = Math.max(document.body.clientHeight, document.documentElement.clientHeight);
-  const ratio = el.height / el.width;
+  const ratio = el.naturalHeight / el.naturalWidth;
 
-  if (el.width / maxWidth > el.height / maxHeight) {
+  if (el.naturalWidth / maxWidth > el.naturalHeight / maxHeight) {
     s.width = maxWidth + "px";
     s.height = maxWidth * ratio + "px";
   } else {
@@ -74,11 +74,27 @@ function fitToWindow(el) {
   }
 }
 
+let showGeneration = 0;
+
 function show() {
+  const generation = ++showGeneration;
   const img = current();
-  fitToWindow(img);
-  main.replaceChildren(img);
   location.replace(hashedUrl(index));
+
+  // If already decoded (cached), show immediately
+  if (img.naturalWidth > 0) {
+    fitToWindow(img);
+    main.replaceChildren(img);
+    return;
+  }
+
+  // Wait for decode, but skip if user already navigated away
+  img.decode().then(() => {
+    if (generation === showGeneration) {
+      fitToWindow(img);
+      main.replaceChildren(img);
+    }
+  }).catch(() => {});
 }
 
 function showNext() {
