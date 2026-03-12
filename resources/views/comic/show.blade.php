@@ -30,6 +30,6 @@
         height: 100%;
     }
 </style>
-<script type="module" src="{{url('comic.js')}}"></script>
+<script type="module" src="{{url('comic.js')}}?rev1"></script>
 <div id="main" data-page-urls="{!! htmlspecialchars(json_encode($comic->getPageUrls()), ENT_QUOTES, 'UTF-8') !!}"></div>
 </html>
